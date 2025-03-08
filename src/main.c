@@ -15,7 +15,7 @@ typedef struct{
 
 /* TODO: convert data into binary, and store in cache folder [./binary_cache.c] */
 
-/* TODO: process user's commands, eg. sort item, filter, export [./main.c]*/
+/* TODO: process user's commands, eg. sort item, filter, export, quit [./main.c]*/
 
 /* TODO: read binary cache [./binary_cache.c] */
 
@@ -30,6 +30,7 @@ typedef struct{
 /* TODO: export LaTeX as output in ./data [in ./latex_export.c]*/
 
 int main(){
+
 
 
     return 0;

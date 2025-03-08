@@ -12,6 +12,7 @@ void print_upload_instructions(void){
 /* TODO: Checks to ensure input csv contents are correct */
 
 
+
 /* TODO: create struct of item: item_name; quantity; expiry_date 
 typedef struct{
     char *item_name;

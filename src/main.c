@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "main.h"
 
 /* TODO: process input csv [./csv_parser.c] */
 
@@ -30,8 +32,30 @@ typedef struct{
 /* TODO: export LaTeX as output in ./data [in ./latex_export.c]*/
 
 int main(){
+    char filepath[256];
+    FILE *input_file;
+    
+    /* uploading input csv */
+    print_instructions();
+    printf("Enter csv path: ");
+    scanf("%255s", filepath);
 
-
+    /* check if file exists */
+    input_file = fopen(filepath, "r");
+    if (!input_file){
+        perror("Error opening file");
+        prinf("Try again :,)\n");
+        return 1;
+    }
+    
+    printf("File uploaded successfully\n");
+    fclose(input_file);
 
     return 0;
+}
+
+
+void print_instructions(void){
+    printf("Hello! To upload csv path, enter the file path below.\n");
+    printf("Example: ./data/input.csv\n");
 }

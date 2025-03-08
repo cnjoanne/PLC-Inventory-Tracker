@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 /* TODO: process input csv */
 
 /* TODO: Checks to ensure input csv contents are correct */
@@ -13,3 +17,17 @@ typedef struct{
 
 /* Input: input.csv file pointer*/
 /* Output: returns array(point of array) of items*/
+
+
+
+typedef struct{
+    char *item_name;
+    int quantity;
+    char expiry_date[11];  /*dd-mm-yyyy*/
+} Item;
+
+Item * parse_csv(FILE *file ){
+
+    Item *items = malloc
+
+}

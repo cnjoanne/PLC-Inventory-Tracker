@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "csv_parser.h"
+#include <string.h>
+#include "../include/item.h"
+#include "../include/binary_cache.h"
+#include "../include/csv_parser.h"
+
 
 int main(){
     char filepath[256];
@@ -25,6 +29,51 @@ int main(){
     fclose(input_file);
 
     return 0;
+
+    /* Dummy data generation for binary_cache.c file test */
+
+    // // Step 1: Create test items
+    // Item *item1 = malloc(sizeof(Item));
+    // snprintf(item1->item_name, sizeof(item1->item_name), "Blue Jazz");
+    // item1->quantity = 29;
+    // snprintf(item1->expiry_date, sizeof(item1->expiry_date), "22/06/2032");
+
+    // Item *item2 = malloc(sizeof(Item));
+    // snprintf(item2->item_name, sizeof(item2->item_name), "Cauliflower");
+    // item2->quantity = 58;
+    // snprintf(item2->expiry_date, sizeof(item2->expiry_date), "20/11/2034");
+
+    // // Step 2: Create an array of item pointers
+    // Item *items[] = {item1, item2};
+    // int num_items = 2;
+
+    // // Step 3: Write items to the binary cache
+    // printf("\n\033[33mWriting items to binary cache...\033[0m\n");
+    // write_binary_cache(items, num_items);
+
+    // // Step 4: Read items from binary cache
+    // printf("\n\033[33mReading items from binary cache...\033[0m\n");
+    // Item **read_items = read_binary_cache();
+
+    // // Step 5: Verify the data read
+    // if (read_items) {
+    //     printf("\n\033[32mItems Read from Binary Cache:\033[0m\n");
+    //     for (int i = 0; i < num_items; i++) {
+    //         printf("Item Name: %s\n", read_items[i]->item_name);
+    //         printf("Quantity: %d\n", read_items[i]->quantity);
+    //         printf("Expiry Date: %s\n\n", read_items[i]->expiry_date);
+    //         free(read_items[i]); // Free each item
+    //     }
+    //     free(read_items); // Free array of pointers
+    // } else {
+    //     printf("\033[31mFailed to read from binary cache\033[0m\n");
+    // }
+
+    // // Step 6: Free original test items
+    // free(item1);
+    // free(item2);
+
+    // return 0;
 }
 
 

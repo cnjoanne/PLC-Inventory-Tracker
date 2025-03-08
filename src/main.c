@@ -43,12 +43,12 @@ int main(){
     /* check if file exists */
     input_file = fopen(filepath, "r");
     if (!input_file){
-        perror("Error opening file");
-        prinf("Try again :,)\n");
+        perror("\033[31mError opening file\033[0m");
+        printf("\033[34mTry again :,)\033[0m\n");
         return 1;
     }
     
-    printf("File uploaded successfully\n");
+    printf("\033[32mFile uploaded successfully\033[0m\n");
     fclose(input_file);
 
     return 0;
@@ -56,6 +56,6 @@ int main(){
 
 
 void print_instructions(void){
-    printf("Hello! To upload csv path, enter the file path below.\n");
-    printf("Example: ./data/input.csv\n");
+    printf("\033[34mHello! To upload csv path, enter the file path below.\033[0m\n");
+    printf("\033[34mExample: ../data/input.csv\033[0m\n");
 }

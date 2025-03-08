@@ -1,6 +1,6 @@
 ## TODO: to fix
 CC= gcc
-CFLAGS = -Wall -Werror -ansi -pedantic -Iinclude  # -Iinclude 
+CFLAGS = -Wall -Werror -ansi -pedantic -Iinclude  # -Iinclude is to allow *.c files to access header files from directory ./include
 
 # directories
 SRC_DIR = src
@@ -29,6 +29,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)  ## creates obj directory if it doesn't exist
 	$(CC) $(CFLAGS) -c $< -o $@
 
-
+# remove object files
 clean:
 	rm -rf $(OBJ_DIR)

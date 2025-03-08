@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "item.h"
 
 /* process input csv */
 void print_upload_instructions(void){

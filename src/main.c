@@ -7,73 +7,80 @@
 
 
 int main(){
-    char filepath[256];
-    FILE *input_file;
+    // char filepath[256];
+    // FILE *input_file;
     
-    /* uploading input csv */
-    print_upload_instructions();
-    printf("Enter csv path: ");
-    scanf("%255s", filepath);
+    // /* uploading input csv */
+    // print_upload_instructions();
+    // printf("Enter csv path: ");
+    // scanf("%255s", filepath);
 
-    /* check if file exists */
-    input_file = fopen(filepath, "r");
-    if (!input_file){
-        perror("\033[31mError opening file\033[0m");
-        printf("\033[34mTry again :,)\033[0m\n");
-        return 1;
-    }
-    printf("\033[32mFile uploaded successfully\033[0m\n");
+    // /* check if file exists */
+    // input_file = fopen(filepath, "r");
+    // if (!input_file){
+    //     perror("\033[31mError opening file\033[0m");
+    //     printf("\033[34mTry again :,)\033[0m\n");
+    //     return 1;
+    // }
+    // printf("\033[32mFile uploaded successfully\033[0m\n");
 
-    /* continue with process....*/
+    // /* continue with process....*/
     
-    fclose(input_file);
+    // fclose(input_file);
 
-    return 0;
+    // return 0;
 
     /* Dummy data generation for binary_cache.c file test */
 
-    // // Step 1: Create test items
-    // Item *item1 = malloc(sizeof(Item));
-    // snprintf(item1->item_name, sizeof(item1->item_name), "Blue Jazz");
-    // item1->quantity = 29;
-    // snprintf(item1->expiry_date, sizeof(item1->expiry_date), "22/06/2032");
+    int number_items,i;
+    Item *item1, *item2;
+    Item **read_items;
+    Item *items[2];
+   
 
-    // Item *item2 = malloc(sizeof(Item));
-    // snprintf(item2->item_name, sizeof(item2->item_name), "Cauliflower");
-    // item2->quantity = 58;
-    // snprintf(item2->expiry_date, sizeof(item2->expiry_date), "20/11/2034");
+    /* Create test items */
+    item1 = malloc(sizeof(Item));
+    snprintf(item1->item_name, sizeof(item1->item_name), "Blue Jazz");
+    item1->quantity = 29;
+    snprintf(item1->expiry_date, sizeof(item1->expiry_date), "22/06/2032");
 
-    // // Step 2: Create an array of item pointers
-    // Item *items[] = {item1, item2};
-    // int num_items = 2;
+    item2 = malloc(sizeof(Item));
+    snprintf(item2->item_name, sizeof(item2->item_name), "Cauliflower");
+    item2->quantity = 58;
+    snprintf(item2->expiry_date, sizeof(item2->expiry_date), "20/11/2034");
 
-    // // Step 3: Write items to the binary cache
-    // printf("\n\033[33mWriting items to binary cache...\033[0m\n");
-    // write_binary_cache(items, num_items);
+    /* Create an array of item pointers */
+    items[0] = item1;
+    items[1] = item2;
+    number_items = 2;
 
-    // // Step 4: Read items from binary cache
-    // printf("\n\033[33mReading items from binary cache...\033[0m\n");
-    // Item **read_items = read_binary_cache();
+    /* Write items to the binary cache */
+    printf("\n\033[33mWriting items to binary cache...\033[0m\n");
+    write_binary_cache(items, number_items);
 
-    // // Step 5: Verify the data read
-    // if (read_items) {
-    //     printf("\n\033[32mItems Read from Binary Cache:\033[0m\n");
-    //     for (int i = 0; i < num_items; i++) {
-    //         printf("Item Name: %s\n", read_items[i]->item_name);
-    //         printf("Quantity: %d\n", read_items[i]->quantity);
-    //         printf("Expiry Date: %s\n\n", read_items[i]->expiry_date);
-    //         free(read_items[i]); // Free each item
-    //     }
-    //     free(read_items); // Free array of pointers
-    // } else {
-    //     printf("\033[31mFailed to read from binary cache\033[0m\n");
-    // }
+    /* Read items from binary cache */
+    printf("\n\033[33mReading items from binary cache...\033[0m\n");
+    read_items = read_binary_cache();
 
-    // // Step 6: Free original test items
-    // free(item1);
-    // free(item2);
+    /* Verify the data read */
+    if (read_items) {
+        printf("\n\033[32mItems Read from Binary Cache:\033[0m\n");
+        for (i = 0; i < number_items; i++) {
+            printf("Item Name: %s\n", read_items[i]->item_name);
+            printf("Quantity: %d\n", read_items[i]->quantity);
+            printf("Expiry Date: %s\n\n", read_items[i]->expiry_date);
+            free(read_items[i]); 
+        }
+        free(read_items); 
+    } else {
+        printf("\033[31mFailed to read from binary cache\033[0m\n");
+    }
 
-    // return 0;
+    /* Free original test items */
+    free(item1);
+    free(item2);
+
+    return 0;
 }
 
 

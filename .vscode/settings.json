@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "binary_cache.h": "c"
     },
     "makefile.configureOnOpen": true
 }

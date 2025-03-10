@@ -18,11 +18,12 @@ void write_binary_cache(Item **items, int num_items){
     FILE *bin_cache;
 
     /* buffer to store path of binary cache file */
-    char bin_cache_path[256] = "../data/cache/bin_cache.bin";
+    #ifdef _WIN32 /* Windows */
+        char bin_cache_path[256] = "./data/cache/bin_cache.bin";
+    #else
+        char bin_cache_path[256] = "../data/cache/bin_cache.bin";
+    #endif
     
-    /* Windows 
-    char bin_cache_path[256] = "./data/cache/bin_cache.bin";
-    */
 
     /* open binary cache file in write mode. If it doesn't exist, create it */
     bin_cache = fopen(bin_cache_path, "wb");
@@ -61,11 +62,11 @@ Item ** read_binary_cache(void){
     FILE *bin_cache;
 
     /* buffer to store path of binary cache file*/
-    char bin_cache_path[256] = "../data/cache/bin_cache.bin";
-
-    /* Windows 
-    char bin_cache_path[256] = "./data/cache/bin_cache.bin";
-    */
+    #ifdef _WIN32 /* Windows */
+        char bin_cache_path[256] = "./data/cache/bin_cache.bin";
+    #else
+        char bin_cache_path[256] = "../data/cache/bin_cache.bin"; 
+    #endif
 
     /* open binary cache file in read mode */
     bin_cache = fopen(bin_cache_path, "rb");

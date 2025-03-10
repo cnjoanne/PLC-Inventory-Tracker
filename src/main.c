@@ -4,9 +4,10 @@
 
 int main(){
     char filepath[256];
-    Item **items; /* pointer to an array of items(also an array)*/
+    Item **items; 
     int *item_counter;
     int csv_is_valid;
+    int i;
     
     /* uploading input csv */
     print_upload_instructions();
@@ -15,11 +16,46 @@ int main(){
 
     
     /* continue with process....*/
-    item_counter = 0;
-    csv_is_valid = check_input_validity(filepath, &items, &item_counter);
+    item_counter = malloc(sizeof(int));
+    items = NULL;
+    csv_is_valid = parse_csv(filepath, &items, item_counter);
     
+    if (csv_is_valid == 0){
+        printf("csv is valid.\n");
+    } else{
+        printf("csv is not valid.\n");
+        return 1;
+
+    }
+    /* =====This is a checker, can remove if you are sure of the struct ====*/
+    if (csv_is_valid == 0){
+        printf("Successfully parsed %d valid items:\n", *item_counter);
+
+        for (i = 0; i < *item_counter; i++) {
+            printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
+                   (items)[i]->item_name, (items)[i]->quantity, (items)[i]->expiry_date);
+        }
+    }
+    /* ==================================================================== */
+
     
-    /* TODO: Free memory*/
+    /* TODO: store as binary cache*/
+
+    /* TODO: Free memory, arrange with dan */
+    for (i = 0; i < *item_counter; i++) {
+        free(items[i]);
+    }
+    free(items);
+    free(item_counter);
+
+    
+    /* Print instructions eg. enter sort name to sort name alphabetically */
+    print_user_instructions();
+
+    /*while (!0){
+        printf("Enter your instructions: ");
+    
+    }*/
 
     return 0;
 }

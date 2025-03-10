@@ -19,15 +19,18 @@ all: $(EXEC)
 
 # rule to build executable 
 ## (can refer to the slide MAKEFILE taught in week 6 class 2)
+## or @if not exist $(BIN_DIR) mkdir $(BIN_DIR)
 $(EXEC): $(OBJ)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(OBJ) -o $(EXEC)
 
 # rule to compile source file (*.c) to object files (*.o)
+## or @if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)  ## creates obj directory if it doesn't exist
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # remove object files
+## or @if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
 clean:
 	rm -rf $(OBJ_DIR)

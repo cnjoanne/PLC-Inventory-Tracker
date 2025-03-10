@@ -1,9 +1,119 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "item.h"
 
-/* TODO: convert data into binary, and store in cache folder*/
-/* TODO: write binary, overwrite previous binary cache */
-/* Input: array(pointer of array) of items */
-/* Saves binary file in ./data/cache/bin_cache.bin  */
-/* OR*/
-/* TODO: read binary cache []*/
-/* Input: binary cache */
-/* Output: returns array(pointer of array) of items */
+
+void write_binary_cache(Item **items, int num_items){
+    /* 
+    Converts array of pointers (items) to binary and writes to cache folder 
+    Input: array(pointer of array) of items
+    Output: void
+    */
+
+    /* Variables*/
+    int i;
+   
+    /* create pointer to binary cache file */
+    FILE *bin_cache;
+
+    /* buffer to store path of binary cache file */
+    char bin_cache_path[256] = "./data/cache/bin_cache.bin";
+
+    /* open binary cache file in write mode. If it doesn't exist, create it */
+    bin_cache = fopen(bin_cache_path, "wb");
+
+    /* error handling */
+    if (!bin_cache){
+        perror("\033[31mError opening file\033[0m");
+        printf("\033[34mTry again :,)\033[0m\n");
+        return;
+    }
+
+    /* write items to binary cache file */
+    for (i=0; i < num_items; i++){
+        fwrite(items[i], sizeof(Item), 1, bin_cache);
+    }
+
+    /* close binary cache file */
+    fclose(bin_cache);
+    printf("\033[32mBinary cache written successfully\033[0m\n");
+}
+
+Item ** read_binary_cache(){
+    /* 
+    Read binary cache file and convert to array of pointers
+    Input: void
+    Output: array of pointers to items
+    */
+
+    /* Variables */
+    int i,j,num_items;
+    long file_size;
+    Item **items;
+
+
+    /* create pointer to binary cache file */
+    FILE *bin_cache;
+
+    /* buffer to store path of binary cache file*/
+    char bin_cache_path[256] = "./data/cache/bin_cache.bin";
+
+    /* open binary cache file in read mode */
+    bin_cache = fopen(bin_cache_path, "rb");
+
+    /* error handling */
+    if (!bin_cache){
+        perror("\033[31mError opening file\033[0m");
+        printf("\033[34mTry again :,)\033[0m\n");
+        return NULL;
+    }
+
+    /* Move file pointer to end of file to get file size */
+    fseek(bin_cache, 0, SEEK_END);
+    file_size = ftell(bin_cache);
+
+    /* Move file pointer back to beginning of file */
+    rewind(bin_cache);
+ 
+    /*  Calculate number of items */
+    num_items = file_size / sizeof(Item);
+
+    /* error handling */
+    if (num_items == 0) {
+        fclose(bin_cache);
+        return NULL; 
+    }
+
+    /* Allocate memory for an array of pointers */
+    items = malloc(num_items * sizeof(Item *));
+
+    /* error handling */
+    if (!items) {
+        fclose(bin_cache);
+        return NULL;
+    }
+
+    /*  Read items into allocated structs */
+    for (i = 0; i < num_items; i++) {
+
+        /*  Allocate memory for each item */
+        items[i] = malloc(sizeof(Item));
+        
+        /*  error handling */
+        if (!items[i]) {
+            for (j = 0; j < i; j++) {
+                free(items[j]); 
+            }
+            free(items);
+            fclose(bin_cache);
+            return NULL;
+        }
+         
+        /* Read item from binary cache file */
+        fread(items[i], sizeof(Item), 1, bin_cache);
+    }
+
+    fclose(bin_cache);
+    return items;
+}

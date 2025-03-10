@@ -13,7 +13,7 @@ int main(void){
     int csv_is_valid;
     int i;
     Item **read_items;
-    int user_selection;
+
 
     /* uploading input csv */
     print_upload_instructions();
@@ -79,11 +79,11 @@ int main(void){
     /* Print instructions eg. enter sort name to sort name alphabetically */
     print_user_instructions();
 
-    while (!0){
+    /* while (!0){
         printf("Enter your instructions: ");
-        scanf("%d", user_selection);
+      
+    } */
     
-    }
     return 0;
 }
 

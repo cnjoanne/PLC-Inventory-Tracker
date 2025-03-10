@@ -13,10 +13,8 @@ void print_upload_instructions(void){
 
 /* TODO: Checks to ensure input csv contents are correct */
 
-int check_input_validity(const char *filepath){
+int check_input_validity(const char *filepath, Item **items, int *item_counter){
     FILE *input_file;
-    Item *items;
-    int item_counter;
 
     /* if file exists */
     input_file = fopen(filepath, "r");
@@ -28,7 +26,6 @@ int check_input_validity(const char *filepath){
     }
     printf("\033[32mFile uploaded successfully\033[0m\n");
 
-    
     /* get number of lines, excluding header */
 
     /* if contents in file are valid */

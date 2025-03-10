@@ -4,6 +4,9 @@
 
 int main(){
     char filepath[256];
+    Item **items; /* pointer to an array of items(also an array)*/
+    int *item_counter;
+    int csv_is_valid;
     
     /* uploading input csv */
     print_upload_instructions();
@@ -12,6 +15,8 @@ int main(){
 
     
     /* continue with process....*/
+    item_counter = 0;
+    csv_is_valid = check_input_validity(filepath, &items, &item_counter);
     
     
     /* TODO: Free memory*/

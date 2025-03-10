@@ -17,23 +17,33 @@ void print_user_instructions(void){
     /* TODO: Add on instructions */
     printf("===============================================\n");
     printf("Instruction for user....\n");
-    printf(".........\n");
+    printf("To sort item by name, Enter: __.\n");
+    printf("To sort item by quantity, Enter: __.\n");
+    printf("To sort item by expiry date, Enter: __.\n");
+
+    printf("To filter item by expiry date, Enter:__.\n");
+    printf("To filter item by quality limit, Enter:__.\n");
     printf("To quit, Enter: 'quit'\n");
 }
  
 
 /* TODO: Checks to ensure input csv contents are correct */
-int is_item_name_valid(void){
-
-    return 0;
-}
-
 int is_quantity_valid(void){
+
     return 0;
 }
 
 int is_date_valid(void){
 
+    return 0;
+}
+
+int is_item_name_valid(void){
+
+    return 0;
+}
+
+int data_is_valid(){
     return 0;
 }
 

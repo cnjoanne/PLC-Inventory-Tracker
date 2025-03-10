@@ -23,16 +23,16 @@ void print_user_instructions(void){
  
 
 /* TODO: Checks to ensure input csv contents are correct */
-int is_item_name_valid(){
+int is_item_name_valid(void){
 
     return 0;
 }
 
-int is_quantity_valid(){
+int is_quantity_valid(void){
     return 0;
 }
 
-int is_date_valid(){
+int is_date_valid(void){
 
     return 0;
 }

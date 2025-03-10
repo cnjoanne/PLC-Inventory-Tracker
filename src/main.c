@@ -6,7 +6,7 @@
 #include "csv_parser.h"
 
 
-int main(){
+int main(void){
     char filepath[256];
     Item **items; 
     int *item_counter;

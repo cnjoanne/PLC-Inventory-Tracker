@@ -18,7 +18,11 @@ void write_binary_cache(Item **items, int num_items){
     FILE *bin_cache;
 
     /* buffer to store path of binary cache file */
+    char bin_cache_path[256] = "../data/cache/bin_cache.bin";
+    
+    /* Windows 
     char bin_cache_path[256] = "./data/cache/bin_cache.bin";
+    */
 
     /* open binary cache file in write mode. If it doesn't exist, create it */
     bin_cache = fopen(bin_cache_path, "wb");
@@ -40,7 +44,7 @@ void write_binary_cache(Item **items, int num_items){
     printf("\033[32mBinary cache written successfully\033[0m\n");
 }
 
-Item ** read_binary_cache(){
+Item ** read_binary_cache(void){
     /* 
     Read binary cache file and convert to array of pointers
     Input: void
@@ -57,7 +61,11 @@ Item ** read_binary_cache(){
     FILE *bin_cache;
 
     /* buffer to store path of binary cache file*/
+    char bin_cache_path[256] = "../data/cache/bin_cache.bin";
+
+    /* Windows 
     char bin_cache_path[256] = "./data/cache/bin_cache.bin";
+    */
 
     /* open binary cache file in read mode */
     bin_cache = fopen(bin_cache_path, "rb");

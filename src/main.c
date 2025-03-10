@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/item.h"
-#include "../include/binary_cache.h"
-#include "../include/csv_parser.h"
+#include "item.h"
+#include "binary_cache.h"
+#include "csv_parser.h"
 
 
 int main(){

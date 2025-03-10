@@ -7,36 +7,33 @@
 
 
 int main(){
-    // char filepath[256];
-    // FILE *input_file;
-    
-    // /* uploading input csv */
-    // print_upload_instructions();
-    // printf("Enter csv path: ");
-    // scanf("%255s", filepath);
-
-    // /* check if file exists */
-    // input_file = fopen(filepath, "r");
-    // if (!input_file){
-    //     perror("\033[31mError opening file\033[0m");
-    //     printf("\033[34mTry again :,)\033[0m\n");
-    //     return 1;
-    // }
-    // printf("\033[32mFile uploaded successfully\033[0m\n");
-
-    // /* continue with process....*/
-    
-    // fclose(input_file);
-
-    // return 0;
-
-    /* Dummy data generation for binary_cache.c file test */
-
+    char filepath[256];
+    FILE *input_file;
     int number_items,i;
     Item *item1, *item2;
     Item **read_items;
     Item *items[2];
-   
+    
+    /* uploading input csv */
+    print_upload_instructions();
+    printf("Enter csv path: ");
+    scanf("%255s", filepath);
+
+    /* check if file exists */
+    input_file = fopen(filepath, "r");
+    if (!input_file){
+        perror("\033[31mError opening file\033[0m");
+        printf("\033[34mTry again :,)\033[0m\n");
+        return 1;
+    }
+    printf("\033[32mFile uploaded successfully\033[0m\n");
+
+    /* continue with process....*/
+    
+    fclose(input_file);
+
+    /* Dummy data generation for binary_cache.c file test */
+
 
     /* Create test items */
     item1 = malloc(sizeof(Item));

@@ -79,12 +79,12 @@ int main(void){
     /* Print instructions eg. enter sort name to sort name alphabetically */
     print_user_instructions();
 
-    while (!0){
+    /* while (!0){
         printf("Enter your instructions: ");
         scanf("%d", user_selection);
     
-    }
-    return 0;
+    } */
+    return 0; 
 }
 
 

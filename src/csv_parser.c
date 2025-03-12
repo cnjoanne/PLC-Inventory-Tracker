@@ -33,8 +33,11 @@ int is_quantity_valid(void){
     return 0;
 }
 
-int is_date_valid(void){
-
+int is_date_valid(const char *date){
+    int year, month, day;
+    if (sscanf(date, "%2d-%2d-%4d", &day, &month, &year) != 3){
+        return 0;
+    }
     return 0;
 }
 
@@ -43,7 +46,8 @@ int is_item_name_valid(void){
     return 0;
 }
 
-int data_is_valid(){
+int is_data_valid(){
+    
     return 0;
 }
 

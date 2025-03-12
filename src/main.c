@@ -60,7 +60,7 @@ int main(void)
         {
             sort_items(items, *item_counter, choice);
         }
-        else if (choice == 7)
+        else if (choice == 6)
         {
             printf("Exiting...\n");
             break;

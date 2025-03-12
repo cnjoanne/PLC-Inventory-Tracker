@@ -7,7 +7,7 @@
 #define MAX_ITEMS 1000
 
 /* Comparator for Item Name (A-Z) */
-int compareByName(const void *a, const void *b)
+int compare_by_name(const void *a, const void *b)
 {
     Item *item1 = *(Item **)a;
     Item *item2 = *(Item **)b;
@@ -15,7 +15,7 @@ int compareByName(const void *a, const void *b)
 }
 
 /* Comparator for Quantity (Lowest to Highest) */
-int compareByQuantity(const void *a, const void *b)
+int compare_by_quantity(const void *a, const void *b)
 {
     Item *item1 = *(Item **)a;
     Item *item2 = *(Item **)b;
@@ -23,7 +23,7 @@ int compareByQuantity(const void *a, const void *b)
 }
 
 /* Comparator for Expiry Date (Earliest to Latest) */
-int compareByExpiry(const void *a, const void *b)
+int compare_by_expiry(const void *a, const void *b)
 {
     Item *item1 = *(Item **)a;
     Item *item2 = *(Item **)b;
@@ -45,20 +45,18 @@ void sort_items(Item **items, int count, int sort_type)
     if (sort_type == 1)
     {
         printf("Sorting by Item Name (A-Z)...\n");
-        qsort(items, count, sizeof(Item *), compareByName);
+        qsort(items, count, sizeof(Item *), compare_by_name);
     }
     else if (sort_type == 2)
     {
         printf("Sorting by Quantity (Lowest to Highest)...\n");
-        qsort(items, count, sizeof(Item *), compareByQuantity);
+        qsort(items, count, sizeof(Item *), compare_by_quantity);
     }
     else if (sort_type == 3)
     {
         printf("Sorting by Expiry Date (Earliest to Latest)...\n");
-        qsort(items, count, sizeof(Item *), compareByExpiry);
+        qsort(items, count, sizeof(Item *), compare_by_expiry);
     }
 
-    /* Write sorted data to binary cache */
-    write_binary_cache(items, count);
     printf("Sorting complete. Data saved to binary cache.\n");
 }

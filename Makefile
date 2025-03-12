@@ -19,16 +19,20 @@ EXEC = $(BIN_DIR)/main.exe
 all: $(EXEC)
 
 # rule to build executable
+# @mkdir -p $(BIN_DIR)
 $(EXEC): $(OBJ)
-	@if not exist $(BIN_DIR) mkdir $(BIN_DIR)
+	@mkdir -p $(BIN_DIR) || @if not exist $(BIN_DIR) mkdir $(BIN_DIR)
 	$(CC) $(OBJ) -o $(EXEC)
 
 # rule to compile source file (*.c) to object files (*.o)
+# @mkdir -p $(OBJ_DIR)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR) || @if not exist $(OBJ_DIR) mkdir $(OBJ_DIR) 
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # remove object files
+# rm -rf $(OBJ_DIR)
+# @if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
 clean:
 	@if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
-	@if exist $(BIN_DIR) rmdir /s /q $(BIN_DIR)
+	

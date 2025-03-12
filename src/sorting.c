@@ -58,5 +58,8 @@ void sort_items(Item **items, int count, int sort_type)
         qsort(items, count, sizeof(Item *), compare_by_expiry);
     }
 
-    printf("Sorting complete. Data saved to binary cache.\n");
+    /* Write sorted data to binary cache */
+    /* FIXME: ideally, we shouldnt be writing to binary here, so need to remove these lines below */
+    /* write_binary_cache(items, count);
+    printf("Sorting complete. Data saved to binary cache.\n"); */
 }

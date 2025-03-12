@@ -27,7 +27,7 @@ $(EXEC): $(OBJ)
 # rule to compile source file (*.c) to object files (*.o)
 # @mkdir -p $(OBJ_DIR)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR) || @if not exist $(OBJ_DIR) mkdir $(OBJ_DIR) 
+	@mkdir -p $(OBJ_DIR) || @if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # remove object files
@@ -35,4 +35,3 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 # @if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
 clean:
 	@if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
-	

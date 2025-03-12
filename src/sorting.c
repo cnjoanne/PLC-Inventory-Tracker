@@ -57,9 +57,4 @@ void sort_items(Item **items, int count, int sort_type)
         printf("Sorting by Expiry Date (Earliest to Latest)...\n");
         qsort(items, count, sizeof(Item *), compare_by_expiry);
     }
-
-    /* Write sorted data to binary cache */
-    /* FIXME: ideally, we shouldnt be writing to binary here, so need to remove these lines below */
-    /* write_binary_cache(items, count);
-    printf("Sorting complete. Data saved to binary cache.\n"); */
 }

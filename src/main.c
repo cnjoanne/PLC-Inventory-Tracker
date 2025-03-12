@@ -4,82 +4,115 @@
 #include "item.h"
 #include "binary_cache.h"
 #include "csv_parser.h"
+#include "sorting.h"
 
-
-int main(){
+int main(void)
+{
     char filepath[256];
-    FILE *input_file;
-    int number_items,i;
-    Item *item1, *item2;
+    Item **items;
+    int *item_counter;
+    int csv_is_valid;
+    int i, choice;
     Item **read_items;
-    Item *items[2];
-    
+
     /* uploading input csv */
     print_upload_instructions();
     printf("Enter csv path: ");
     scanf("%255s", filepath);
 
-    /* check if file exists */
-    input_file = fopen(filepath, "r");
-    if (!input_file){
-        perror("\033[31mError opening file\033[0m");
-        printf("\033[34mTry again :,)\033[0m\n");
+    /* continue with process....*/
+    item_counter = malloc(sizeof(int));
+    items = NULL;
+    csv_is_valid = parse_csv(filepath, &items, item_counter);
+
+    if (csv_is_valid == 0)
+    {
+        printf("csv is valid.\n");
+    }
+    else
+    {
+        printf("csv is not valid.\n");
         return 1;
     }
-    printf("\033[32mFile uploaded successfully\033[0m\n");
+    /* =====This is a checker, can remove if you are sure of the struct ====*/
+    if (csv_is_valid == 0)
+    {
+        printf("Successfully parsed %d valid items:\n", *item_counter);
 
-    /* continue with process....*/
-    
-    fclose(input_file);
+        for (i = 0; i < *item_counter; i++)
+        {
+            printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
+                   (items)[i]->item_name, (items)[i]->quantity, (items)[i]->expiry_date);
+        }
+    }
+    /* ==================================================================== */
 
-    /* Dummy data generation for binary_cache.c file test */
+    /* Print instructions eg. enter sort name to sort name alphabetically */
+    print_user_instructions();
 
+    /* Process user choice */
+    while (1)
+    {
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
 
-    /* Create test items */
-    item1 = malloc(sizeof(Item));
-    snprintf(item1->item_name, sizeof(item1->item_name), "Blue Jazz");
-    item1->quantity = 29;
-    snprintf(item1->expiry_date, sizeof(item1->expiry_date), "22/06/2032");
+        if (choice == 1 || choice == 2 || choice == 3)
+        {
+            sort_items(items, *item_counter, choice);
+        }
+        else if (choice == 7)
+        {
+            printf("Exiting...\n");
+            break;
+        }
+        else
+        {
+            printf("Invalid option! Please enter 1, 2, 3, or 7.\n");
+        }
+    }
 
-    item2 = malloc(sizeof(Item));
-    snprintf(item2->item_name, sizeof(item2->item_name), "Cauliflower");
-    item2->quantity = 58;
-    snprintf(item2->expiry_date, sizeof(item2->expiry_date), "20/11/2034");
-
-    /* Create an array of item pointers */
-    items[0] = item1;
-    items[1] = item2;
-    number_items = 2;
-
+    /* TODO: store as binary cache*/
     /* Write items to the binary cache */
     printf("\n\033[33mWriting items to binary cache...\033[0m\n");
-    write_binary_cache(items, number_items);
+    write_binary_cache(items, *item_counter);
 
     /* Read items from binary cache */
     printf("\n\033[33mReading items from binary cache...\033[0m\n");
     read_items = read_binary_cache();
 
     /* Verify the data read */
-    if (read_items) {
+    if (read_items)
+    {
         printf("\n\033[32mItems Read from Binary Cache:\033[0m\n");
-        for (i = 0; i < number_items; i++) {
+        for (i = 0; i < *item_counter; i++)
+        {
             printf("Item Name: %s\n", read_items[i]->item_name);
             printf("Quantity: %d\n", read_items[i]->quantity);
             printf("Expiry Date: %s\n\n", read_items[i]->expiry_date);
-            free(read_items[i]); 
+            free(read_items[i]);
         }
-        free(read_items); 
-    } else {
+        free(read_items);
+    }
+    else
+    {
         printf("\033[31mFailed to read from binary cache\033[0m\n");
     }
 
-    /* Free original test items */
-    free(item1);
-    free(item2);
+    /* TODO: Free memory, arrange with dan */
+    for (i = 0; i < *item_counter; i++)
+    {
+        free(items[i]);
+    }
+    free(items);
+    free(item_counter);
+
+    /* while (!0){
+        printf("Enter your instructions: ");
+
+    } */
 
     return 0;
 }
-
 
 /* TODO: process input csv [./csv_parser.c] */
 

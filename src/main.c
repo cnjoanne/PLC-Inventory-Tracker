@@ -59,10 +59,10 @@ int main(void)
 
         if (choice == 1 || choice == 2 || choice == 3)
         {
+            printf("\nIf you would like to sort in ascending order, Enter: a.\n");
+            printf("If you would like to sort in descending order, Enter: b.\n");
             while (1)
             {
-                printf("\nIf you would like to sort in ascending order, Enter: a.\n");
-                printf("If you would like to sort in descending order, Enter: b.\n");
                 printf("\nEnter your option: ");
                 scanf(" %c", &option);
 

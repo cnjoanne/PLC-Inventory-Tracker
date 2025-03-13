@@ -19,12 +19,12 @@ void print_user_instructions(void)
     /* TODO: Add on instructions */
     printf("===============================================\n");
     printf("Instruction for user....\n");
-    printf("To sort item by name, Enter: 1.\n");
-    printf("To sort item by quantity, Enter: 2.\n");
-    printf("To sort item by expiry date, Enter: 3.\n");
+    printf("To sort items by name, Enter: 1.\n");
+    printf("To sort items by quantity, Enter: 2.\n");
+    printf("To sort items by expiry date, Enter: 3.\n");
 
-    printf("To filter item by expiry date, Enter: 4.\n");
-    printf("To filter item by quality limit, Enter: 5.\n");
+    printf("To filter items by expiry date, Enter: 4.\n");
+    printf("To filter items by quality limit, Enter: 5.\n");
     printf("To quit, Enter: 6.\n");
 }
 

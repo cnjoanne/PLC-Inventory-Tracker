@@ -13,6 +13,7 @@ int main(void)
     int *item_counter;
     int csv_is_valid;
     int i, choice;
+    char option;
     Item **read_items;
 
     /* uploading input csv */
@@ -58,7 +59,23 @@ int main(void)
 
         if (choice == 1 || choice == 2 || choice == 3)
         {
-            sort_items(items, *item_counter, choice);
+            while (1)
+            {
+                printf("\nIf you would like to sort in ascending order, Enter: a.\n");
+                printf("If you would like to sort in descending order, Enter: b.\n");
+                printf("\nEnter your option: ");
+                scanf(" %c", &option);
+
+                if (option == 'a' || option == 'b')
+                {
+                    sort_items(items, *item_counter, choice, option);
+                    break;
+                }
+                else
+                {
+                    printf("Invalid option! Please enter 'a' or 'b'.\n");
+                }
+            }
         }
         else if (choice == 6)
         {
@@ -67,7 +84,7 @@ int main(void)
         }
         else
         {
-            printf("Invalid option! Please enter 1, 2, 3, or 7.\n");
+            printf("Invalid option! Please enter 1, 2, 3, or 6.\n");
         }
     }
 

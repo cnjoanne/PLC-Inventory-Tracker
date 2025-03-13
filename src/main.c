@@ -13,7 +13,6 @@ int main(void){
     int csv_is_valid;
     int i;
     Item **read_items;
-    int user_selection;
 
     /* uploading input csv */
     print_upload_instructions();

@@ -8,24 +8,25 @@
 #define MAX_EXPIRY_DATE_LENGTH 11
 
 /* process input csv */
-void print_upload_instructions(void){
+void print_upload_instructions(void)
+{
     printf("\033[34mHello! To upload csv path, enter the file path below.\033[0m\n");
     printf("\033[34mExample: ../data/input.csv\033[0m\n");
 }
 
-void print_user_instructions(void){
+void print_user_instructions(void)
+{
     /* TODO: Add on instructions */
     printf("===============================================\n");
     printf("Instruction for user....\n");
-    printf("To sort item by name, Enter: __.\n");
-    printf("To sort item by quantity, Enter: __.\n");
-    printf("To sort item by expiry date, Enter: __.\n");
+    printf("To sort items by name, Enter: 1.\n");
+    printf("To sort items by quantity, Enter: 2.\n");
+    printf("To sort items by expiry date, Enter: 3.\n");
 
-    printf("To filter item by expiry date, Enter:__.\n");
-    printf("To filter item by quality limit, Enter:__.\n");
-    printf("To quit, Enter: 'quit'\n");
+    printf("To filter items by expiry date, Enter: 4.\n");
+    printf("To filter items by quality limit, Enter: 5.\n");
+    printf("To quit, Enter: 6.\n");
 }
- 
 
 /* TODO: Checks to ensure input csv contents are correct */
 int quantity_is_valid(const char *quantity_str){
@@ -99,7 +100,8 @@ int data_is_valid(const char *item_name, const char *quantity_str, const char *e
     return is_valid;
 }
 
-int parse_csv(const char *filepath, Item ***items, int *item_counter){
+int parse_csv(const char *filepath, Item ***items, int *item_counter)
+{
     FILE *input_file;
     int field_count, count, valid_count, i;
     char line[MAX_LINE_LENGTH];
@@ -110,7 +112,8 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter){
 
     /* if file exists */
     input_file = fopen(filepath, "r");
-    if (!input_file){
+    if (!input_file)
+    {
         perror("\033[31mError opening file\033[0m");
         printf("\033[34mTry again :,)\033[0m\n");
         return -1;
@@ -118,10 +121,14 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter){
     printf("\033[32mFile uploaded successfully\033[0m\n");
 
     /* check if csv contents isnt empty or has any error */
-    if (fgets(line, sizeof(line), input_file) == NULL){
-        if (feof(input_file)){
+    if (fgets(line, sizeof(line), input_file) == NULL)
+    {
+        if (feof(input_file))
+        {
             fprintf(stderr, "Error: File is empty. \n");
-        } else {
+        }
+        else
+        {
             perror("Error reading file");
         }
         fclose(input_file);
@@ -137,9 +144,10 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter){
     rewind(input_file);
 
     /* allocate memory for items array*/
-    fgets(line, sizeof(line), input_file); /* to ignore header line */
+    fgets(line, sizeof(line), input_file);   /* to ignore header line */
     *items = malloc(count * sizeof(Item *)); /* Allocates: {item0_ptr, item1_ptr, .. , itemn_ptr}*/
-    if (!(*items)){
+    if (!(*items))
+    {
         perror("Memory allocation failed");
         return -1;
     }
@@ -210,5 +218,3 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter){
 
 /* Input: input.csv file pointer*/
 /* Output: returns array(point of array) of items*/
-
-

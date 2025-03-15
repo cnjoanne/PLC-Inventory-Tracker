@@ -6,9 +6,10 @@ CFLAGS = -Wall -Werror -ansi -pedantic -Iinclude  # -Iinclude is to allow *.c fi
 SRC_DIR = src
 BIN_DIR = bin
 OBJ_DIR  = obj
-INCLUDE_DIR = includes
-# source file and object file 
-SRC = $(SRC_DIR)/main.c  $(SRC_DIR)/csv_parser.c $(SRC_DIR)/binary_cache.c ## $(SRC_DIR)/filtering.c $(SRC_DIR)/sorting.c $(SRC_DIR)/latex_export.c $(SRC_DIR)/utils.c 
+INCLUDE_DIR = include
+
+# source file and object file
+SRC = $(SRC_DIR)/main.c  $(SRC_DIR)/csv_parser.c $(SRC_DIR)/binary_cache.c $(SRC_DIR)/sorting.c $(SRC_DIR)/filtering.c ## $(SRC_DIR)/latex_export.c $(SRC_DIR)/utils.c
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # output executable file
@@ -17,20 +18,21 @@ EXEC = $(BIN_DIR)/main.exe
 # default target. Means, when we run 'make' with no arguments in terminal, computer looks for 'all'. Computer then builds the executable EXEC
 all: $(EXEC)
 
-# rule to build executable 
-## (can refer to the slide MAKEFILE taught in week 6 class 2)
-## or @if not exist $(BIN_DIR) mkdir $(BIN_DIR)
+# rule to build executable
+# @mkdir -p $(BIN_DIR)
 $(EXEC): $(OBJ)
-	@mkdir -p $(BIN_DIR)
+	@mkdir -p $(BIN_DIR) || @if not exist $(BIN_DIR) mkdir $(BIN_DIR)
 	$(CC) $(OBJ) -o $(EXEC)
 
 # rule to compile source file (*.c) to object files (*.o)
-## or @if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
+# @mkdir -p $(OBJ_DIR)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)  ## creates obj directory if it doesn't exist
+	@mkdir -p $(OBJ_DIR) || @if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # remove object files
-## or @if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
+# rm -rf $(OBJ_DIR)
+# @if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
 clean:
-	rm -rf $(OBJ_DIR)
+	@if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
+	@if exist $(BIN_DIR)/main.exe del /f /q $(BIN_DIR)\main.exe

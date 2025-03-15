@@ -54,15 +54,18 @@ int main(void)
     }
     /* ==================================================================== */
 
+    /* Read and write binary */
+    /* free allocation */
+
     /* Print instructions eg. enter sort name to sort name alphabetically */
     print_user_instructions();
 
     /* Process user choice */
     while (1)
     {
+        /*TODO: maybe runner.c ? */
         printf("\nEnter your choice: ");
         scanf("%d", &choice);
-
         if (choice == 1 || choice == 2 || choice == 3)
         {
             printf("\nIf you would like to sort in ascending order, Enter: a.\n");

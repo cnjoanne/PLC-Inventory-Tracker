@@ -35,3 +35,4 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 # @if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
 clean:
 	@if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
+	@if exist $(BIN_DIR)/main.exe del /f /q $(BIN_DIR)\main.exe

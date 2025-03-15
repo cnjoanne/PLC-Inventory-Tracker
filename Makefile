@@ -1,4 +1,3 @@
-## TODO: to fix
 OS := $(shell uname 2>/dev/null || echo Windows)
 
 CC= gcc
@@ -12,7 +11,7 @@ INCLUDE_DIR = include
 CAC_DIR = data/cache
 
 # source file and object file
-SRC = $(SRC_DIR)/main.c  $(SRC_DIR)/csv_parser.c $(SRC_DIR)/binary_cache.c $(SRC_DIR)/sorting.c $(SRC_DIR)/filtering.c ## $(SRC_DIR)/latex_export.c $(SRC_DIR)/utils.c
+SRC = $(SRC_DIR)/main.c  $(SRC_DIR)/csv_parser.c $(SRC_DIR)/binary_cache.c $(SRC_DIR)/sorting.c $(SRC_DIR)/filtering.c $(SRC_DIR)/instruction_printer.c ## $(SRC_DIR)/latex_export.c $(SRC_DIR)/utils.c
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # output executable file

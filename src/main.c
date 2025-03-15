@@ -14,16 +14,15 @@ int main(void)
     int item_count; /* Number of valid items */
     int csv_is_valid;
     int i;
-    /*int i, choice, filtered_count;
+    int choice, filtered_count;
     int start_day, start_month, start_year;
     int quantity;
     int end_day, end_month, end_year;
     char option;
     char start_date[11], end_date[11];
-    Item **read_items;
-    Item **filtered_items;*/
+    Item **filtered_items;
 
-    /* uploading input csv */
+    /* SECTION: uploading input csv */
     print_upload_instructions();
     printf("Enter csv path: ");
     scanf("%255s", filepath);
@@ -54,7 +53,7 @@ int main(void)
     }
     /* ==================================================================== */
 
-    /* Write items to the binary cache */
+    /* SECTION: Write items to the binary cache */
     printf("\n\033[33mWriting items to binary cache...\033[0m\n");
     write_binary_cache(items, &item_count);
 
@@ -63,16 +62,15 @@ int main(void)
     for (i = 0; i < item_count; i++)
     {
         free(items[i]);
-        printf("Freeing item %d\n", i);
 
     }
     free(items);
 
-    /* ----Finish parsing of csv and storing contents as binary---- */
+    /* SECTION: ----Finish parsing of csv and storing contents as binary---- */
     /* Print instructions eg. enter sort name to sort name alphabetically */
     print_user_instructions();
 
-    /* Read items from binary cache */
+    /* SECTION: Read items from binary cache (to parse user instructions )*/
     printf("\n\033[33mReading items from binary cache...\033[0m\n");
     items = NULL; 
     items = read_binary_cache(&items, &item_count);
@@ -93,6 +91,171 @@ int main(void)
         printf("\033[31mFailed to read from binary cache\033[0m\n");
     }
 
+    /* SECTION: Process user choice */
+    while (1)
+    {
+        /*TODO: maybe runner.c ? */
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+        if (choice == 1 || choice == 2 || choice == 3)
+        {
+            printf("\nIf you would like to sort in ascending order, Enter: a.\n");
+            printf("If you would like to sort in descending order, Enter: b.\n");
+            while (1)
+            {
+                printf("\nEnter your option: ");
+                scanf(" %c", &option);
+
+                if (option == 'a' || option == 'b')
+                {
+                    sort_items(items, item_count, choice, option);
+                    break;
+                }
+                else
+                {
+                    printf("Invalid option! Please enter 'a' or 'b'.\n");
+                    while (getchar() != '\n')
+                        ;
+                }
+            }
+            /* Write the sorted items to the binary cache */
+            printf("\n\033[33mWriting sorted items to binary cache...\033[0m\n");
+            write_binary_cache(items, &item_count);
+        }
+        else if (choice == 4)
+        {
+            while (1)
+            {
+                printf("\nEnter start date (DD/MM/YYYY): ");
+                if (scanf("%10s", start_date) != 1 || sscanf(start_date, "%d/%d/%d", &start_day, &start_month, &start_year) != 3)
+                {
+                    printf("Invalid date format! Please enter in DD/MM/YYYY format.\n");
+                    while (getchar() != '\n')
+                        ;
+                }
+
+                printf("Enter end date (DD/MM/YYYY): ");
+                if (scanf("%10s", end_date) != 1 || sscanf(end_date, "%d/%d/%d", &end_day, &end_month, &end_year) != 3)
+                {
+                    printf("Invalid date format! Please enter in DD/MM/YYYY format.\n");
+                    while (getchar() != '\n')
+                        ;
+                }
+
+                /* Check if end date is before start date */
+                if (end_year < start_year || (end_year == start_year && end_month < start_month) ||
+                    (end_year == start_year && end_month == start_month && end_day < start_day))
+                {
+                    printf("Invalid date range! End date cannot be earlier than start date.\n");
+                    while (getchar() != '\n')
+                        ;
+                }
+
+                break;
+            }
+
+            filtered_items = filter_items_by_expiry(items, item_count, start_date, end_date, &filtered_count);
+
+            if (filtered_items == NULL)
+            {
+                printf("Error: Could not allocate memory for filtering.\n");
+            }
+            else if (filtered_count > 0)
+            {
+                /* Write the filtered list to the binary cache */
+                printf("\n\033[33mWriting filtered items to binary cache...\033[0m\n");
+                write_binary_cache(filtered_items, &filtered_count);
+            }
+            else
+            {
+                printf("No items found in this date range.\n");
+            }
+
+            /* Free the filtered list (but NOT the original items) */
+            free(filtered_items);
+        }
+
+        else if (choice == 5)
+        {
+            while (1)
+            {
+                printf("\nEnter quantity you would like to filter by: ");
+
+                if (scanf("%d", &quantity) == 1)
+                {
+                    break;
+                }
+                else
+                {
+                    printf("Invalid input! Please enter a valid integer.\n");
+                    while (getchar() != '\n')
+                        ;
+                }
+            }
+            filtered_items = filter_items_by_quantity(items, item_count, quantity, &filtered_count);
+
+            if (filtered_items == NULL)
+            {
+                printf("Error: Could not allocate memory for filtering.\n");
+            }
+            else if (filtered_count > 0)
+            {
+                /* Write the filtered list to the binary cache */
+                printf("\n\033[33mWriting filtered items to binary cache...\033[0m\n");
+                write_binary_cache(filtered_items, &filtered_count);
+            }
+            else
+            {
+                printf("No items with quantity lesser than equal to this value.\n");
+            }
+
+            /* Free the filtered list (but NOT the original items) */
+            free(filtered_items);
+        }
+
+        else if (choice == 6)
+        {
+            printf("Exiting...\n");
+            break;
+        }
+        else
+        {
+            printf("Invalid option! Please enter 1, 2, 3, or 6.\n");
+            while (getchar() != '\n')
+                ;
+        }
+    }
+
+    /* SECTION: Free memory of array (array used to read content from user instruction) */
+    for (i = 0; i < item_count; i++)
+    {
+        free(items[i]);
+    }
+    free(items);
+
+
+
+
+    /* =====This is a checker, To check if the sorting/filtering algorithm works. Read items from binary cache ====*/
+    printf("\n\033[33mReading items from binary cache...\033[0m\n");
+    items = NULL; 
+    items = read_binary_cache(&items, &item_count);
+    
+    /* Verify the data read */
+    if (items)
+    {
+        printf("\033[32mItems Read from Binary Cache:\033[0m\n");
+        for (i = 0; i < item_count; i++)
+        {
+            printf("Item Name: %s\n", items[i]->item_name);
+            printf("Quantity: %d\n", items[i]->quantity);
+            printf("Expiry Date: %s\n\n", items[i]->expiry_date);
+        }
+    }
+    else 
+    {
+        printf("\033[31mFailed to read from binary cache\033[0m\n");
+    }
 
     /* Free memory of array */
     for (i = 0; i < item_count; i++)
@@ -100,6 +263,8 @@ int main(void)
         free(items[i]);
     }
     free(items);
+    /* ============================================================================================================ */
+
 
     return 0;
 }

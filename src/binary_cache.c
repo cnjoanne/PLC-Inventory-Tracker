@@ -7,7 +7,7 @@
 void write_binary_cache(Item **items, int *item_count){
     /* 
     Converts array of pointers (items) to binary and writes to cache folder 
-    Input: array(pointer of array) of items
+    Input: array(pointer of array) of items, count of valid num of items
     Output: void
     */
 
@@ -94,7 +94,6 @@ Item ** read_binary_cache(Item ***items, int *item_count){
         return NULL; 
     }
 
-    /* TODO: Added this here, can check if it makes sense? -cn */
     /* error handling */ 
     if (num_items != *item_count){
         printf("Number of items read not equal to original number of valid items\n");

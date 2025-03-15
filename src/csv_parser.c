@@ -29,7 +29,13 @@ void print_user_instructions(void){
 
 /* TODO: Checks to ensure input csv contents are correct */
 int quantity_is_valid(const char *quantity_str){
-
+    int i;
+    for (i = 0; i < strlen(quantity_str); i++){
+        if (quantity_str[i] < 48 || quantity_str[i] > 57){
+            printf("Invalid character. ");
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -171,13 +177,13 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter){
         
         /* TODO check for valid input*/
         if (field_count != 3){ /* checks if all fields are filled per line */
-            printf("Error: Not all columns are filled at %d \n", i + 1);
+            printf("\033[31mError: Not all columns are filled at %d\033[0m\n", i + 1);
             i++;
             continue;
         }
         
         if (data_is_valid(item_name, quantity_str, expiry_date) != 0){ /* if not valid, continue*/
-            printf("Error: Invalid line %d is not included\n", i + 1);
+            printf("\033[31mError: Invalid line %d is not included\033[0m\n", i + 1);
             i++;
             continue;
         }

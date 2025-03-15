@@ -5,7 +5,7 @@
 #include "item.h"
 
 
-void write_binary_cache(Item **items, int num_items);
-Item ** read_binary_cache(void);
+void write_binary_cache(Item **items, int *item_count);
+Item ** read_binary_cache(Item ***items, int *item_count);
 
 #endif

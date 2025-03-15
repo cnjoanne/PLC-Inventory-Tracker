@@ -47,7 +47,7 @@ int is_item_name_valid(void)
     return 0;
 }
 
-int data_is_valid()
+int data_is_valid(void)
 {
     return 0;
 }

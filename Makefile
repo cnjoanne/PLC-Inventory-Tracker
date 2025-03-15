@@ -1,4 +1,6 @@
 ## TODO: to fix
+OS := $(shell uname 2>/dev/null || echo Windows)
+
 CC= gcc
 CFLAGS = -Wall -Werror -ansi -pedantic -Iinclude  # -Iinclude is to allow *.c files to access header files from directory ./include
 
@@ -33,6 +35,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 # remove object files
 # rm -rf $(OBJ_DIR)
 # @if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
+# @if exist $(BIN_DIR)/main.exe del /f /q $(BIN_DIR)\main.exe
 clean:
-	@if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
-	@if exist $(BIN_DIR)/main.exe del /f /q $(BIN_DIR)\main.exe
+ifeq ($(OS),Windows)
+	@if exist "$(OBJ_DIR)" rmdir /s /q "$(OBJ_DIR)"
+	@if exist "$(BIN_DIR)\main.exe" del /f /q "$(BIN_DIR)\main.exe"
+else
+	@if [ -d "$(OBJ_DIR)" ]; then rm -rf "$(OBJ_DIR)"; fi
+	@if [ -f "$(BIN_DIR)/main.exe" ]; then rm -f "$(BIN_DIR)/main.exe"; fi
+endif

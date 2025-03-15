@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "stdlib.h": "c",
-        "binary_cache.h": "c"
+        "binary_cache.h": "c",
+        "typeinfo": "c"
     },
     "makefile.configureOnOpen": true
 }

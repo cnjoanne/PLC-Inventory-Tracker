@@ -10,6 +10,7 @@
 #define LOW_STOCK_QUANTITY 5
 #define EXPIRING_SOON_LIMIT 12/12/2025
 
+
 int main(void)
 {
     char filepath[256];
@@ -69,8 +70,7 @@ int main(void)
     free(items);
 
     /* SECTION: ----Finish parsing of csv and storing contents as binary---- */
-    /* Print instructions eg. enter sort name to sort name alphabetically */
-    print_user_instructions();
+    print_user_instructions(); /* Print instructions eg. enter sort name to sort name alphabetically */
 
     /* SECTION: Read items from binary cache (to parse user instructions )*/
     printf("\n\033[33mReading items from binary cache...\033[0m\n");
@@ -98,6 +98,9 @@ int main(void)
     }
     */
 
+    /*TODO: Get Low Stock Warning array*/
+
+    /*TODO: Get Expirying soon array*/
 
     /* SECTION: Process user choice */
     while (1)
@@ -265,7 +268,7 @@ int main(void)
             }
 
             /* Free the filtered list (but NOT the original items) */
-           /* for (i = 0; i < filtered_count; i++)
+            /* for (i = 0; i < filtered_count; i++)
             {
                 free(filtered_items[i]);
             }*/
@@ -284,6 +287,8 @@ int main(void)
         else if (choice == 6)
         {
             printf("Exiting...\n");
+            printf("Saving to LaTeX\n");
+            /* TODO: LaTeX conversion here*/
             break;
         }
         else
@@ -293,7 +298,6 @@ int main(void)
         }
     }
 
-    /* SECTION: Free memory of array (array used to read content from user instruction) */
 
 
     /* =====This is a checker, To check if the sorting/filtering algorithm works. Read items from binary cache ====*/

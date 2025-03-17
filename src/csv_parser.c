@@ -54,12 +54,20 @@ int date_is_valid(const char *date){
 }
 
 int item_name_is_valid(const char *item_name){
-    /* for (i=0; item_name[i] != '\0'; i++){
-        if (!isalpha(item_name[i]) && !isspace(item_name[i])){
-            printf("Invalid character in item name. \n");
+    /* Only accepts alphabets, " ", "(", ")", ",", "-" */
+    int i;
+    for (i=0; i < strlen(item_name); i++){
+        if (!((item_name[i] >='A' && item_name[i] <= 'Z') || 
+            (item_name[i] >= 'a' && item_name[i] <= 'z')||
+            item_name[i] == ' ' || item_name[i] == '(' ||
+            item_name[i] == ')' || item_name[i] == ',' ||
+            item_name[i] == '-'))
+        {
+
+            printf("Invalid character in item name. ");
             return 1;
         }
-    } */
+    } 
     return 0;
 }
 

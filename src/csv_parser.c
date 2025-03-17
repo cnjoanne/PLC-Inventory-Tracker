@@ -171,14 +171,14 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
             expiry_date[0] = '\0'; 
         }
         
-        /* TODO check for valid input*/
+        /* check for valid input*/
         if (field_count != 3){ /* checks if all fields are filled per line */
             printf("\033[31mError: Not all columns are filled at %d\033[0m\n", i + 1);
             i++;
             continue;
         }
         
-        if (data_is_valid(item_name, quantity_str, expiry_date) != 0){ /* if not valid, continue*/
+        if (data_is_valid(item_name, quantity_str, expiry_date) != 0){ /* if not valid, skip*/
             printf("\033[31mError: Invalid line %d is not included\033[0m\n", i + 1);
             i++;
             continue;
@@ -200,7 +200,6 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
 
     *item_counter = valid_count;
     fclose(input_file);
-    printf("COUNT: %d\n", *item_counter);
     return 0;
 }
 

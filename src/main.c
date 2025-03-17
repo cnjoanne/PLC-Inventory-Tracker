@@ -7,11 +7,14 @@
 #include "sorting.h"
 #include "filtering.h"
 
+#define LOW_STOCK_QUANTITY 5
+#define EXPIRING_SOON_LIMIT 12/12/2025
+
 int main(void)
 {
     char filepath[256];
-    Item **items;
-    int item_count; /* Number of valid items */
+    Item **items; /* array of items */
+    int item_count; /* number of valid items */
     int csv_is_valid;
     int i;
     int choice, filtered_count;
@@ -33,17 +36,17 @@ int main(void)
 
     if (csv_is_valid == 0)
     {
-        printf("csv is valid.\n");
+        printf("\033[32mcsv is valid.\033[0m\n");
     }
     else
     {
-        printf("csv is not valid.\n");
+        printf("\033[34mcsv is not valid.\033[0m\n");
         return 1;
     }
-    /* =====This is a checker, can remove if you are sure of the struct ====*/
+
     if (csv_is_valid == 0)
     {
-        printf("Successfully parsed %d valid items:\n", item_count);
+        printf("\033[32mSuccessfully parsed %d valid items:\033[0m\n", item_count);
 
         for (i = 0; i < item_count; i++)
         {
@@ -51,7 +54,6 @@ int main(void)
                    (items)[i]->item_name, (items)[i]->quantity, (items)[i]->expiry_date);
         }
     }
-    /* ==================================================================== */
 
     /* SECTION: Write items to the binary cache */
     printf("\n\033[33mWriting items to binary cache...\033[0m\n");
@@ -75,7 +77,7 @@ int main(void)
     items = NULL; 
     items = read_binary_cache(&items, &item_count);
     
-    /* Verify the data read */
+    /* Verify the data read 
     if (items)
     {
         printf("\033[32mItems Read from Binary Cache:\033[0m\n");
@@ -90,6 +92,7 @@ int main(void)
     {
         printf("\033[31mFailed to read from binary cache\033[0m\n");
     }
+    */
 
     /* SECTION: Process user choice */
     while (1)
@@ -172,6 +175,10 @@ int main(void)
             }
 
             /* Free the filtered list (but NOT the original items) */
+            for (i = 0; i < filtered_count; i++)
+            {
+                free(filtered_items[i]);
+            }
             free(filtered_items);
         }
 
@@ -210,6 +217,10 @@ int main(void)
             }
 
             /* Free the filtered list (but NOT the original items) */
+            for (i = 0; i < filtered_count; i++)
+            {
+                free(filtered_items[i]);
+            }
             free(filtered_items);
         }
 

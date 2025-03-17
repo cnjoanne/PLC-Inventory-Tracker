@@ -74,8 +74,12 @@ int main(void)
 
     /* SECTION: Read items from binary cache (to parse user instructions )*/
     printf("\n\033[33mReading items from binary cache...\033[0m\n");
-    items = NULL; 
-    items = read_binary_cache(&items, &item_count);
+    items = NULL;
+    items = read_binary_cache(&item_count);
+    if (items == NULL){ /*to make sure no. of malloc  ==  no. of free*/
+        printf("binary was not read properly, \n");
+        return 1;
+    }
     
     /* Verify the data read 
     if (items)
@@ -93,6 +97,7 @@ int main(void)
         printf("\033[31mFailed to read from binary cache\033[0m\n");
     }
     */
+
 
     /* SECTION: Process user choice */
     while (1)
@@ -231,26 +236,27 @@ int main(void)
         }
         else
         {
-            printf("Invalid option! Please enter 1, 2, 3, or 6.\n");
-            while (getchar() != '\n')
-                ;
+            printf("Invalid option! Please enter 1, 2, 3, 4, 5, or 6.\n");
+            while (getchar() != '\n');
         }
     }
 
     /* SECTION: Free memory of array (array used to read content from user instruction) */
+    printf("item count %d \n", item_count);
+
     for (i = 0; i < item_count; i++)
     {
         free(items[i]);
-    }
+    } 
     free(items);
 
-
+    printf("free?"); 
 
 
     /* =====This is a checker, To check if the sorting/filtering algorithm works. Read items from binary cache ====*/
     printf("\n\033[33mReading items from binary cache...\033[0m\n");
     items = NULL; 
-    items = read_binary_cache(&items, &item_count);
+    items = read_binary_cache(&item_count);
     
     /* Verify the data read */
     if (items)

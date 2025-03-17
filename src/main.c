@@ -107,6 +107,15 @@ int main(void)
         scanf("%d", &choice);
         if (choice == 1 || choice == 2 || choice == 3)
         {
+            /* Read cache to make new items array */
+            printf("\n\033[33mReading items from binary cache...\033[0m\n");
+            items = NULL;
+            items = read_binary_cache(&item_count);
+            if (items == NULL){ /*to make sure no. of malloc  ==  no. of free*/
+                printf("binary was not read properly, \n");
+                return 1;
+            }
+
             printf("\nIf you would like to sort in ascending order, Enter: a.\n");
             printf("If you would like to sort in descending order, Enter: b.\n");
             while (1)
@@ -129,9 +138,25 @@ int main(void)
             /* Write the sorted items to the binary cache */
             printf("\n\033[33mWriting sorted items to binary cache...\033[0m\n");
             write_binary_cache(items, &item_count);
+
+            /* Free memory of items array */
+            for (i = 0; i < item_count; i++)
+            {
+                free(items[i]);
+            }
+            free(items);
         }
         else if (choice == 4)
         {
+            /* Read cache to make new items array */
+            printf("\n\033[33mReading items from binary cache...\033[0m\n");
+            items = NULL;
+            items = read_binary_cache(&item_count);
+            if (items == NULL){ /*to make sure no. of malloc  ==  no. of free*/
+                printf("binary was not read properly, \n");
+                return 1;
+            }
+
             while (1)
             {
                 printf("\nEnter start date (DD/MM/YYYY): ");
@@ -180,15 +205,33 @@ int main(void)
             }
 
             /* Free the filtered list (but NOT the original items) */
-            for (i = 0; i < filtered_count; i++)
+           /* for (i = 0; i < filtered_count; i++)
             {
                 free(filtered_items[i]);
-            }
+            }*/
             free(filtered_items);
+
+            /* Free memory of items array */
+            for (i = 0; i < item_count; i++)
+            {
+                free(items[i]);
+            }
+            free(items);
+
+            item_count = filtered_count;
         }
 
         else if (choice == 5)
         {
+            /* Read cache to make new items array */
+            printf("\n\033[33mReading items from binary cache...\033[0m\n");
+            items = NULL;
+            items = read_binary_cache(&item_count);
+            if (items == NULL){ /*to make sure no. of malloc  ==  no. of free*/
+                printf("binary was not read properly, \n");
+                return 1;
+            }
+
             while (1)
             {
                 printf("\nEnter quantity you would like to filter by: ");
@@ -222,11 +265,20 @@ int main(void)
             }
 
             /* Free the filtered list (but NOT the original items) */
-            for (i = 0; i < filtered_count; i++)
+           /* for (i = 0; i < filtered_count; i++)
             {
                 free(filtered_items[i]);
-            }
+            }*/
             free(filtered_items);
+
+            /* Free memory of items array */
+            for (i = 0; i < item_count; i++)
+            {
+                free(items[i]);
+            }
+            free(items);
+
+            item_count = filtered_count;
         }
 
         else if (choice == 6)
@@ -242,15 +294,6 @@ int main(void)
     }
 
     /* SECTION: Free memory of array (array used to read content from user instruction) */
-    printf("item count %d \n", item_count);
-
-    for (i = 0; i < item_count; i++)
-    {
-        free(items[i]);
-    } 
-    free(items);
-
-    printf("free?"); 
 
 
     /* =====This is a checker, To check if the sorting/filtering algorithm works. Read items from binary cache ====*/
@@ -274,12 +317,7 @@ int main(void)
         printf("\033[31mFailed to read from binary cache\033[0m\n");
     }
 
-    /* Free memory of array */
-    for (i = 0; i < item_count; i++)
-    {
-        free(items[i]);
-    }
-    free(items);
+
     /* ============================================================================================================ */
 
 

@@ -7,58 +7,96 @@
 #define MAX_ITEM_NAME_LENGTH 40
 #define MAX_EXPIRY_DATE_LENGTH 11
 
-/* process input csv */
-void print_upload_instructions(void)
-{
-    printf("\033[34mHello! To upload csv path, enter the file path below.\033[0m\n");
-    printf("\033[34mExample: ../data/input.csv\033[0m\n");
-}
-
-void print_user_instructions(void)
-{
-    /* TODO: Add on instructions */
-    printf("===============================================\n");
-    printf("Instruction for user....\n");
-    printf("To sort items by name, Enter: 1.\n");
-    printf("To sort items by quantity, Enter: 2.\n");
-    printf("To sort items by expiry date, Enter: 3.\n");
-
-    printf("To filter items by expiry date, Enter: 4.\n");
-    printf("To filter items by quality limit, Enter: 5.\n");
-    printf("To quit, Enter: 6.\n");
-}
 
 /* TODO: Checks to ensure input csv contents are correct */
-int is_quantity_valid(void)
-{
-
+int quantity_is_valid(const char *quantity_str){
+    int i;
+    for (i = 0; i < strlen(quantity_str); i++){
+        if (quantity_str[i] < 48 || quantity_str[i] > 57){
+            printf("Invalid character. ");
+            return 1;
+        }
+    }
     return 0;
 }
 
-int is_date_valid(void)
-{
-
+int date_is_valid(const char *date){
+    int year, month, day;
+    int is_leap;
+    if (sscanf(date, "%2d/%2d/%4d", &day, &month, &year) != 3){
+        printf("Date format is invalid. ");
+        return 1;
+    }
+    if (day < 1 || day > 31){ /* Day */
+        printf("Date out of range. ");
+        return 1;
+    }
+    if (month < 1 || month > 12){ /* Month */
+        printf("Date out of range. ");
+        return 1;
+    }
+    if ((month == 2 || month == 4 || month == 6 || month == 9 || month == 11) && day > 30){ /* For feb, apr, june, sep, nov*/
+        printf("Date out of range. ");
+        return 1;
+    }
+    if (month == 2){ /* For feb */
+        is_leap = ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
+        if (is_leap && day > 29){
+            printf("Date out of range. ");
+            return 1;
+        } 
+        if (!is_leap && day > 28){
+            printf("Date out of range. ");
+            return 1;
+        }
+    }
     return 0;
 }
 
-int is_item_name_valid(void)
-{
+int item_name_is_valid(const char *item_name){
+    /* Only accepts alphabets, " ", "(", ")", ",", "-" */
+    int i;
+    for (i=0; i < strlen(item_name); i++){
+        if (!((item_name[i] >='A' && item_name[i] <= 'Z') || 
+            (item_name[i] >= 'a' && item_name[i] <= 'z')||
+            item_name[i] == ' ' || item_name[i] == '(' ||
+            item_name[i] == ')' || item_name[i] == ',' ||
+            item_name[i] == '-'))
+        {
 
+            printf("Invalid character in item name. ");
+            return 1;
+        }
+    } 
     return 0;
 }
 
-int data_is_valid()
-{
-    return 0;
+int data_is_valid(const char *item_name, const char *quantity_str, const char *expiry_date){
+    int is_valid = 0;
+    if (item_name_is_valid(item_name) != 0 ){
+        printf("Invalid item name %s\n", item_name);
+        is_valid = 1;
+    }
+    if (quantity_is_valid(quantity_str) != 0){
+        printf("Invalid quantity %s\n", quantity_str);
+        is_valid = 1;
+    }
+    if (date_is_valid(expiry_date) != 0){
+        printf("Invalid expiry date %s\n", expiry_date);
+        is_valid = 1;
+    }
+    return is_valid;
 }
 
 int parse_csv(const char *filepath, Item ***items, int *item_counter)
 {
     FILE *input_file;
-    int count;
+    int field_count, count, valid_count, i;
     char line[MAX_LINE_LENGTH];
-    int i;
     char *token;
+    char item_name[MAX_ITEM_NAME_LENGTH];
+    char quantity_str[11];
+    char expiry_date[MAX_EXPIRY_DATE_LENGTH];
 
     /* if file exists */
     input_file = fopen(filepath, "r");
@@ -85,13 +123,12 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
         return -1;
     }
 
-    /* check contents are valid and get number of lines, excluding header */
+    /* get number of lines, excluding header */
     count = 0;
-    while (fgets(line, sizeof(line), input_file))
-    {
-        /* TODO: Add checks for content of csv*/
-        count++;
+    while (fgets(line, sizeof(line), input_file)){
+        count ++;
     }
+
     rewind(input_file);
 
     /* allocate memory for items array*/
@@ -103,36 +140,65 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
         return -1;
     }
 
+    valid_count = 0;
     i = 0;
-    while (fgets(line, sizeof(line), input_file) && i < count)
-    {
-        (*items)[i] = (Item *)malloc(sizeof(Item)); /* allocate memory for struct Item*/
-        if (!(*items)[i])
-        {
+    while (fgets(line, sizeof(line), input_file) != NULL && i < count){
+        field_count = 0; /* checks if all contents in line are present, it should be 3 */
+ 
+        /* splits contents */
+        token = strtok(line, ","); /* split "apple, 3, 29/01/2003", token = "apple" */
+        if (token != NULL && strlen(token) > 0){
+            field_count += 1;
+            strncpy(item_name, token, MAX_ITEM_NAME_LENGTH - 1);
+            item_name[MAX_ITEM_NAME_LENGTH - 1]= '\0';
+        } else {
+            item_name[0] = '\0'; 
+        }
+        token = strtok(NULL, ","); /* token = "3" */
+        if (token != NULL && strlen(token) > 0){
+            field_count += 1;
+            strncpy(quantity_str, token, 11 - 1);
+            quantity_str[11 - 1]= '\0';
+        } else {
+            quantity_str[0] = '\0'; 
+        }
+        token = strtok(NULL, ","); /* token =  "29/01/2003" */
+        if (token !=NULL && strlen(token) > 0){ 
+            field_count += 1;
+            strncpy(expiry_date, token, MAX_EXPIRY_DATE_LENGTH - 1);
+            expiry_date[MAX_EXPIRY_DATE_LENGTH - 1] = '\0';
+        } else {
+            expiry_date[0] = '\0'; 
+        }
+        
+        /* check for valid input*/
+        if (field_count != 3){ /* checks if all fields are filled per line */
+            printf("\033[31mError: Not all columns are filled at %d\033[0m\n", i + 1);
+            i++;
+            continue;
+        }
+        
+        if (data_is_valid(item_name, quantity_str, expiry_date) != 0){ /* if not valid, skip*/
+            printf("\033[31mError: Invalid line %d is not included\033[0m\n", i + 1);
+            i++;
+            continue;
+        }
+
+        (*items)[valid_count] = (Item *)malloc(sizeof(Item)); /* allocate memory for struct Item*/
+        if (!(*items)[valid_count]){
             perror("Memory allocation failed");
             return -1;
         }
-        token = strtok(line, ","); /* split "apple, 3, 29-01-2003", token = "apple" */
-        if (token != NULL)
-        {
-            strncpy((*items)[i]->item_name, token, MAX_ITEM_NAME_LENGTH);
-            (*items)[i]->item_name[sizeof((*items)[i]->item_name) - 1] = '\0';
-        }
-        token = strtok(NULL, ","); /* token = "3" */
-        if (token != NULL)
-        {
-            (*items)[i]->quantity = atoi(token);
-        }
-        token = strtok(NULL, ","); /* token =  "29-01-2003" */
-        if (token != NULL)
-        {
-            strncpy((*items)[i]->expiry_date, token, MAX_EXPIRY_DATE_LENGTH);
-            (*items)[i]->expiry_date[sizeof((*items)[i]->expiry_date) - 1] = '\0';
-        }
+
+        strcpy((*items)[valid_count]->item_name, item_name);
+        (*items)[valid_count]->quantity = atoi(quantity_str);
+        strcpy((*items)[valid_count]->expiry_date, expiry_date);
+
+        valid_count++;
         i++;
     }
 
-    *item_counter = count;
+    *item_counter = valid_count;
     fclose(input_file);
     return 0;
 }

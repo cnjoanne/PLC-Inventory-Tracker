@@ -119,6 +119,7 @@ void handle_sort_choice(int choice, int *item_count)
     while (1) {
         printf("\nEnter 'a' for ascending, 'b' for descending: ");
         scanf(" %c", &option);
+        while (getchar() != '\n'); 
         if (option == 'a' || option == 'b') break;
         printf("Invalid input.\n");
     }

@@ -25,6 +25,8 @@ int main(void)
     char option;
     char start_date[11], end_date[11];
     Item **filtered_items;
+    Item **low_stock_warning_items;
+    Item **expirying_soon_items;
 
     /* SECTION: uploading input csv */
     print_upload_instructions();
@@ -77,7 +79,7 @@ int main(void)
     items = NULL;
     items = read_binary_cache(&item_count);
     if (items == NULL){ /*to make sure no. of malloc  ==  no. of free*/
-        printf("binary was not read properly, \n");
+        printf("Binary was not read properly. Read 0 items.\n");
         return 1;
     }
     
@@ -99,8 +101,10 @@ int main(void)
     */
 
     /*TODO: Get Low Stock Warning array*/
+    low_stock_warning_items = NULL;
 
     /*TODO: Get Expirying soon array*/
+    expirying_soon_items = NULL;
 
     /* SECTION: Process user choice */
     while (1)
@@ -208,7 +212,7 @@ int main(void)
             }
 
             /* Free the filtered list (but NOT the original items) */
-           /* for (i = 0; i < filtered_count; i++)
+            /* for (i = 0; i < filtered_count; i++)
             {
                 free(filtered_items[i]);
             }*/
@@ -328,26 +332,3 @@ int main(void)
     return 0;
 }
 
-/* TODO: process input csv [./csv_parser.c] */
-
-/* TODO: Checks to ensure input csv contents are correct [./csv_parser.c] */
-
-/* TODO: create struct of item: item_name; quantity; expiry_date  [./csv_parser.c] */
-
-/* TODO: create array (pointer to array) to store many items [./csv_parser.c] */
-
-/* TODO: convert data into binary, and store in cache folder [./binary_cache.c] */
-
-/* TODO: process user's commands, eg. sort item, filter, export, quit [./main.c]*/
-
-/* TODO: read binary cache [./binary_cache.c] */
-
-/* TODO: sorting logic for item_name, quantity, expiry_date [in ./sorting.c]*/
-
-/* TODO: filter logic for low quantity, expiry_date [in ./filtering.c]*/
-
-/* TODO: write binary, overwrite previous binary cache [./binary_cache.c] */
-
-/* TODO: write binary cache into LaTeX [in ./latex_export.c]*/
-
-/* TODO: export LaTeX as output in ./data [in ./latex_export.c]*/

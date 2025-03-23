@@ -56,7 +56,13 @@ Item **filter_items_by_expiry(Item **items, int count, const char *start_date, c
     {
         if (is_within_range(items[i]->expiry_date, start_date, end_date))
         {
-            filtered_items[*filtered_count] = items[i];
+            filtered_items[*filtered_count] = malloc(sizeof(Item));
+            if (!filtered_items[*filtered_count])
+            {
+                perror("Memory allocation failed for individual item");
+                return NULL;
+            }
+            memcpy(filtered_items[*filtered_count], items[i], sizeof(Item));
             (*filtered_count)++;
         }
     }
@@ -84,8 +90,13 @@ Item **filter_items_by_quantity(Item **items, int count, int quantity, int *filt
     {
         if (items[i]->quantity <= quantity)
         {
-            /* FIXME might be an issue here, filtered_items[*filtered_count] is only copying the address of the items[i]*/
-            filtered_items[*filtered_count] = items[i];
+            filtered_items[*filtered_count] = malloc(sizeof(Item));
+            if (!filtered_items[*filtered_count])
+            {
+                perror("Memory allocation failed for individual item");
+                return NULL;
+            }
+            memcpy(filtered_items[*filtered_count], items[i], sizeof(Item));
             (*filtered_count)++;
         }
     }

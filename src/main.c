@@ -8,13 +8,12 @@
 #include "filtering.h"
 
 #define LOW_STOCK_QUANTITY 5
-#define EXPIRING_SOON_LIMIT 12/12/2025
-
+#define EXPIRING_SOON_LIMIT 12 / 12 / 2025
 
 int main(void)
 {
     char filepath[256];
-    Item **items; /* array of items */
+    Item **items;   /* array of items */
     int item_count; /* number of valid items */
     int csv_is_valid;
     int i;
@@ -60,12 +59,10 @@ int main(void)
     printf("\n\033[33mWriting items to binary cache...\033[0m\n");
     write_binary_cache(items, &item_count);
 
-
     /* Free memory of array */
     for (i = 0; i < item_count; i++)
     {
         free(items[i]);
-
     }
     free(items);
 
@@ -76,12 +73,13 @@ int main(void)
     printf("\n\033[33mReading items from binary cache...\033[0m\n");
     items = NULL;
     items = read_binary_cache(&item_count);
-    if (items == NULL){ /*to make sure no. of malloc  ==  no. of free*/
+    if (items == NULL)
+    { /*to make sure no. of malloc  ==  no. of free*/
         printf("binary was not read properly, \n");
         return 1;
     }
-    
-    /* Verify the data read 
+
+    /* Verify the data read
     if (items)
     {
         printf("\033[32mItems Read from Binary Cache:\033[0m\n");
@@ -92,7 +90,7 @@ int main(void)
             printf("Expiry Date: %s\n\n", items[i]->expiry_date);
         }
     }
-    else 
+    else
     {
         printf("\033[31mFailed to read from binary cache\033[0m\n");
     }
@@ -114,7 +112,8 @@ int main(void)
             printf("\n\033[33mReading items from binary cache...\033[0m\n");
             items = NULL;
             items = read_binary_cache(&item_count);
-            if (items == NULL){ /*to make sure no. of malloc  ==  no. of free*/
+            if (items == NULL)
+            { /*to make sure no. of malloc  ==  no. of free*/
                 printf("binary was not read properly, \n");
                 return 1;
             }
@@ -155,7 +154,8 @@ int main(void)
             printf("\n\033[33mReading items from binary cache...\033[0m\n");
             items = NULL;
             items = read_binary_cache(&item_count);
-            if (items == NULL){ /*to make sure no. of malloc  ==  no. of free*/
+            if (items == NULL)
+            { /*to make sure no. of malloc  ==  no. of free*/
                 printf("binary was not read properly, \n");
                 return 1;
             }
@@ -207,11 +207,11 @@ int main(void)
                 printf("No items found in this date range.\n");
             }
 
-            /* Free the filtered list (but NOT the original items) */
-           /* for (i = 0; i < filtered_count; i++)
+            /* Free memory of filtered array */
+            for (i = 0; i < filtered_count; i++)
             {
                 free(filtered_items[i]);
-            }*/
+            }
             free(filtered_items);
 
             /* Free memory of items array */
@@ -230,7 +230,8 @@ int main(void)
             printf("\n\033[33mReading items from binary cache...\033[0m\n");
             items = NULL;
             items = read_binary_cache(&item_count);
-            if (items == NULL){ /*to make sure no. of malloc  ==  no. of free*/
+            if (items == NULL)
+            { /*to make sure no. of malloc  ==  no. of free*/
                 printf("binary was not read properly, \n");
                 return 1;
             }
@@ -267,11 +268,11 @@ int main(void)
                 printf("No items with quantity lesser than equal to this value.\n");
             }
 
-            /* Free the filtered list (but NOT the original items) */
-            /* for (i = 0; i < filtered_count; i++)
+            /* Free memory of filtered array */
+            for (i = 0; i < filtered_count; i++)
             {
                 free(filtered_items[i]);
-            }*/
+            }
             free(filtered_items);
 
             /* Free memory of items array */
@@ -294,17 +295,16 @@ int main(void)
         else
         {
             printf("Invalid option! Please enter 1, 2, 3, 4, 5, or 6.\n");
-            while (getchar() != '\n');
+            while (getchar() != '\n')
+                ;
         }
     }
 
-
-
     /* =====This is a checker, To check if the sorting/filtering algorithm works. Read items from binary cache ====*/
     printf("\n\033[33mReading items from binary cache...\033[0m\n");
-    items = NULL; 
+    items = NULL;
     items = read_binary_cache(&item_count);
-    
+
     /* Verify the data read */
     if (items)
     {
@@ -316,14 +316,12 @@ int main(void)
             printf("Expiry Date: %s\n\n", items[i]->expiry_date);
         }
     }
-    else 
+    else
     {
         printf("\033[31mFailed to read from binary cache\033[0m\n");
     }
 
-
     /* ============================================================================================================ */
-
 
     return 0;
 }

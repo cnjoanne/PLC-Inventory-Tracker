@@ -84,6 +84,7 @@ Item **filter_items_by_quantity(Item **items, int count, int quantity, int *filt
     {
         if (items[i]->quantity <= quantity)
         {
+            /* FIXME might be an issue here, filtered_items[*filtered_count] is only copying the address of the items[i]*/
             filtered_items[*filtered_count] = items[i];
             (*filtered_count)++;
         }

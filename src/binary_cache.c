@@ -4,10 +4,10 @@
 #include "item.h"
 
 
-void write_binary_cache(Item **items, int num_items){
+void write_binary_cache(Item **items, int *item_count){
     /* 
     Converts array of pointers (items) to binary and writes to cache folder 
-    Input: array(pointer of array) of items
+    Input: array(pointer of array) of items, count of valid num of items
     Output: void
     */
 
@@ -35,8 +35,9 @@ void write_binary_cache(Item **items, int num_items){
         return;
     }
 
+    /* TODO: Ensure it properly overwrites binary cache file if there was another content stored inside -cn*/
     /* write items to binary cache file */
-    for (i=0; i < num_items; i++){
+    for (i=0; i < *item_count; i++){
         fwrite(items[i], sizeof(Item), 1, bin_cache);
     }
 
@@ -45,17 +46,17 @@ void write_binary_cache(Item **items, int num_items){
     printf("\033[32mBinary cache written successfully\033[0m\n");
 }
 
-Item ** read_binary_cache(void){
+Item ** read_binary_cache(int *item_count){
     /* 
     Read binary cache file and convert to array of pointers
-    Input: void
+    Input: pointer to array of items, pointer to 
     Output: array of pointers to items
     */
 
     /* Variables */
-    int i,j,num_items;
+    int i, j, num_items;
     long file_size;
-    Item **items;
+    Item ** items;
 
 
     /* create pointer to binary cache file */
@@ -94,6 +95,12 @@ Item ** read_binary_cache(void){
         return NULL; 
     }
 
+    /* error handling */ 
+    if (num_items != *item_count){
+        printf("Number of items read not equal to original number of valid items\n");
+        return NULL;
+    }
+
     /* Allocate memory for an array of pointers */
     items = malloc(num_items * sizeof(Item *));
 
@@ -107,7 +114,7 @@ Item ** read_binary_cache(void){
     for (i = 0; i < num_items; i++) {
 
         /*  Allocate memory for each item */
-        items[i] = malloc(sizeof(Item));
+        (items)[i] = malloc(sizeof(Item));
         
         /*  error handling */
         if (!items[i]) {
@@ -120,7 +127,9 @@ Item ** read_binary_cache(void){
         }
          
         /* Read item from binary cache file */
-        fread(items[i], sizeof(Item), 1, bin_cache);
+        if (fread(items[i], sizeof(Item), 1, bin_cache) != 1) {
+            fprintf(stderr, "Error reading item %d from binary cache\n", i);
+        }
     }
 
     fclose(bin_cache);

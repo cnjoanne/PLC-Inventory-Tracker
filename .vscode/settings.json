@@ -3,7 +3,12 @@
         "stdlib.h": "c",
         "binary_cache.h": "c",
         "typeinfo": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "filtering.h": "c",
+        "sorting.h": "c",
+        "csv_parser.h": "c",
+        "item.h": "c",
+        "string.h": "c"
     },
     "makefile.configureOnOpen": true
 }

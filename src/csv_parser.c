@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "item.h"
+#include "csv_parser.h"
 
 #define MAX_LINE_LENGTH 200
 #define MAX_ITEM_NAME_LENGTH 40
@@ -202,6 +203,40 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
     fclose(input_file);
     return 0;
 }
+
+int load_and_parse_csv(Item ***items, int *item_count)
+{
+    char filepath[256];
+    int csv_is_valid;
+    int i;
+
+    print_upload_instructions();
+    printf("Enter csv path: ");
+    scanf("%255s", filepath);
+
+
+
+    /* 
+    Parse CSV file
+    Note: global item_count updated here 
+    */
+    csv_is_valid = parse_csv(filepath, items, item_count); 
+
+    if (csv_is_valid == 0) {
+        printf("\033[32mcsv is valid.\033[0m\n");
+        printf("\033[32mSuccessfully parsed %d valid items:\033[0m\n", *item_count);
+
+        for (i = 0; i < *item_count; i++) {
+            printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
+                   (*items)[i]->item_name, (*items)[i]->quantity, (*items)[i]->expiry_date);
+        }
+        return 1;
+    } else {
+        printf("\033[34mcsv is not valid.\033[0m\n");
+        return 0;
+    }
+}
+
 
 /* Input: input.csv file pointer*/
 /* Output: returns array(point of array) of items*/

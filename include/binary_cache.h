@@ -6,6 +6,6 @@
 
 
 void write_binary_cache(Item **items, int *item_count);
-Item ** read_binary_cache(int *item_count);
+Item ** read_binary_cache(int *num_items);
 
 #endif

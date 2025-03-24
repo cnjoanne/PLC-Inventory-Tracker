@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "item.h"
+#include "utils.h"
+#include "filtering.h"
+#include "sorting.h"
 #include "binary_cache.h"
 
 #define MAX_ITEMS 1000
@@ -100,3 +103,29 @@ void sort_items(Item **items, int count, int sort_type, char choice)
         }
     }
 }
+
+void handle_sort_choice(int choice, int *item_count)
+{
+    char option;
+    Item **items;
+    
+    items = read_binary_cache(item_count);  
+
+    if (!items) {
+        printf("Error reading binary cache\n");
+        return;
+    }
+
+    while (1) {
+        printf("\nEnter 'a' for ascending, 'b' for descending: ");
+        scanf(" %c", &option);
+        while (getchar() != '\n'); 
+        if (option == 'a' || option == 'b') break;
+        printf("Invalid input.\n");
+    }
+
+    sort_items(items, *item_count, choice, option);
+    write_binary_cache(items, item_count);
+    free_items(items, *item_count); 
+}
+

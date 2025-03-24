@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "item.h"
+#include "utils.h"
+#include "filtering.h"
+#include "sorting.h"
+#include "binary_cache.h"
+
 
 void parse_date(const char *date_str, int *day, int *month, int *year)
 {
@@ -56,7 +61,13 @@ Item **filter_items_by_expiry(Item **items, int count, const char *start_date, c
     {
         if (is_within_range(items[i]->expiry_date, start_date, end_date))
         {
-            filtered_items[*filtered_count] = items[i];
+            filtered_items[*filtered_count] = malloc(sizeof(Item));
+            if (!filtered_items[*filtered_count])
+            {
+                perror("Memory allocation failed for individual item");
+                return NULL;
+            }
+            memcpy(filtered_items[*filtered_count], items[i], sizeof(Item));
             (*filtered_count)++;
         }
     }
@@ -84,11 +95,101 @@ Item **filter_items_by_quantity(Item **items, int count, int quantity, int *filt
     {
         if (items[i]->quantity <= quantity)
         {
-            /* FIXME might be an issue here, filtered_items[*filtered_count] is only copying the address of the items[i]*/
-            filtered_items[*filtered_count] = items[i];
+            filtered_items[*filtered_count] = malloc(sizeof(Item));
+            if (!filtered_items[*filtered_count])
+            {
+                perror("Memory allocation failed for individual item");
+                return NULL;
+            }
+            memcpy(filtered_items[*filtered_count], items[i], sizeof(Item));
             (*filtered_count)++;
         }
     }
 
     return filtered_items;
+}
+
+void handle_filter_by_expiry(int* item_count)
+{
+    Item **items;
+    Item **filtered;
+    int filtered_count,i;
+    char start_date[11], end_date[11];
+    int start_day, start_month, start_year;
+    int end_day, end_month, end_year;
+
+    items = read_binary_cache(item_count);
+    if (!items) return;
+
+    while (1)
+    {
+        printf("\nEnter start date (DD/MM/YYYY): ");
+        if (scanf("%10s", start_date) != 1 || sscanf(start_date, "%d/%d/%d", &start_day, &start_month, &start_year) != 3)
+        {
+            printf("Invalid date format! Please enter in DD/MM/YYYY format.\n"); while (getchar() != '\n') {}
+            continue;
+        }
+
+        printf("Enter end date (DD/MM/YYYY): ");
+        if (scanf("%10s", end_date) != 1 || sscanf(end_date, "%d/%d/%d", &end_day, &end_month, &end_year) != 3)
+        {
+            printf("Invalid date format! Please enter in DD/MM/YYYY format.\n"); while (getchar() != '\n'){}
+            continue;
+        }
+
+        if (end_year < start_year || (end_year == start_year && end_month < start_month) ||
+            (end_year == start_year && end_month == start_month && end_day < start_day))
+        {
+            printf("Invalid date range! End date cannot be earlier than start date.\n"); while (getchar() != '\n'){}
+            continue;
+        }
+
+        break;
+    }
+    
+    filtered = filter_items_by_expiry(items, *item_count, start_date, end_date, &filtered_count);
+
+    if (filtered_count > 0) {
+        /* NOTE: Using write_binary_cache here will not modify item_count but it will override the existing binary file. Do be careful about using this overwritten binary file when implementing get_low_stock and expiry date*/
+        write_binary_cache(filtered, &filtered_count); 
+    } else {
+        printf("No items found in this range.\n");
+    }
+
+    for (i = 0; i < filtered_count; i++) {
+        free(filtered[i]);
+    }
+    free(filtered); 
+    free_items(items, *item_count);
+}
+
+void handle_filter_by_quantity(int* item_count)
+{
+    Item **items;
+    Item **filtered;
+    int quantity,filtered_count,i;
+
+
+    items = read_binary_cache(item_count);
+    if (!items) return;
+    while (1) {
+        printf("\nEnter quantity: ");
+        if (scanf("%d", &quantity) == 1) break;
+        printf("Invalid input.\n"); while (getchar() != '\n');
+    }
+
+   
+    filtered = filter_items_by_quantity(items, *item_count, quantity, &filtered_count);
+    if (filtered_count > 0) {
+        /* NOTE: Using write_binary_cache here will not modify item_count but it will override the existing binary file. Do be careful about using this overwritten binary file when implementing get_low_stock and expiry date*/
+        write_binary_cache(filtered, &filtered_count);
+    } else {
+        printf("No items found.\n");
+    }
+
+    for (i = 0; i < filtered_count; i++) {
+        free(filtered[i]);
+    }
+    free(filtered); 
+    free_items(items, *item_count);
 }

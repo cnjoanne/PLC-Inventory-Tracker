@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "item.h"
+#include "csv_parser.h"
 
 #define MAX_LINE_LENGTH 200
 #define MAX_ITEM_NAME_LENGTH 40
@@ -44,7 +45,7 @@ int date_is_valid(const char *date){
         if (is_leap && day > 29){
             printf("Date out of range. ");
             return 1;
-        } 
+        }
         if (!is_leap && day > 28){
             printf("Date out of range. ");
             return 1;
@@ -57,7 +58,7 @@ int item_name_is_valid(const char *item_name){
     /* Only accepts alphabets, " ", "(", ")", ",", "-" */
     int i;
     for (i=0; i < strlen(item_name); i++){
-        if (!((item_name[i] >='A' && item_name[i] <= 'Z') || 
+        if (!((item_name[i] >='A' && item_name[i] <= 'Z') ||
             (item_name[i] >= 'a' && item_name[i] <= 'z')||
             item_name[i] == ' ' || item_name[i] == '(' ||
             item_name[i] == ')' || item_name[i] == ',' ||
@@ -67,7 +68,7 @@ int item_name_is_valid(const char *item_name){
             printf("Invalid character in item name. ");
             return 1;
         }
-    } 
+    }
     return 0;
 }
 
@@ -144,7 +145,7 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
     i = 0;
     while (fgets(line, sizeof(line), input_file) != NULL && i < count){
         field_count = 0; /* checks if all contents in line are present, it should be 3 */
- 
+
         /* splits contents */
         token = strtok(line, ","); /* split "apple, 3, 29/01/2003", token = "apple" */
         if (token != NULL && strlen(token) > 0){
@@ -152,7 +153,7 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
             strncpy(item_name, token, MAX_ITEM_NAME_LENGTH - 1);
             item_name[MAX_ITEM_NAME_LENGTH - 1]= '\0';
         } else {
-            item_name[0] = '\0'; 
+            item_name[0] = '\0';
         }
         token = strtok(NULL, ","); /* token = "3" */
         if (token != NULL && strlen(token) > 0){
@@ -160,24 +161,24 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
             strncpy(quantity_str, token, 11 - 1);
             quantity_str[11 - 1]= '\0';
         } else {
-            quantity_str[0] = '\0'; 
+            quantity_str[0] = '\0';
         }
         token = strtok(NULL, ","); /* token =  "29/01/2003" */
-        if (token !=NULL && strlen(token) > 0){ 
+        if (token !=NULL && strlen(token) > 0){
             field_count += 1;
             strncpy(expiry_date, token, MAX_EXPIRY_DATE_LENGTH - 1);
             expiry_date[MAX_EXPIRY_DATE_LENGTH - 1] = '\0';
         } else {
-            expiry_date[0] = '\0'; 
+            expiry_date[0] = '\0';
         }
-        
+
         /* check for valid input*/
         if (field_count != 3){ /* checks if all fields are filled per line */
             printf("\033[31mError: Not all columns are filled at %d\033[0m\n", i + 1);
             i++;
             continue;
         }
-        
+
         if (data_is_valid(item_name, quantity_str, expiry_date) != 0){ /* if not valid, skip*/
             printf("\033[31mError: Invalid line %d is not included\033[0m\n", i + 1);
             i++;
@@ -202,6 +203,39 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
     fclose(input_file);
     return 0;
 }
+
+int load_and_parse_csv(Item ***items, int *item_count)
+{
+    char filepath[256];
+    int csv_is_valid;
+    int i;
+
+    print_upload_instructions();
+    printf("Enter csv path: ");
+    scanf("%255s", filepath);
+
+    /* 
+    Parse CSV file
+    Note: global item_count updated here 
+    */
+    csv_is_valid = parse_csv(filepath, items, item_count); 
+
+    /* Checks if CSV is valid */
+    if (csv_is_valid == 0) {
+        printf("\033[32mcsv is valid.\033[0m\n");
+        printf("\033[32mSuccessfully parsed %d valid items:\033[0m\n", *item_count);
+
+        for (i = 0; i < *item_count; i++) {
+            printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
+                   (*items)[i]->item_name, (*items)[i]->quantity, (*items)[i]->expiry_date);
+        }
+        return 1;
+    } else {
+        printf("\033[34mcsv is not valid.\033[0m\n");
+        return 0;
+    }
+}
+
 
 /* Input: input.csv file pointer*/
 /* Output: returns array(point of array) of items*/

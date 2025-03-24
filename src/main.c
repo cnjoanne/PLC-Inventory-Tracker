@@ -8,9 +8,14 @@
 #include "filtering.h"
 #include "utils.h"
 
+#define LOW_STOCK_LIMIT 5
+#define EXPIRY_DATE_LIMIT 12/12/2025
+
 int main(void)
 {
     Item **items = NULL;
+    Item **low_stock_items = NULL;
+    Item **expirying_soon_items = NULL;
     int item_count = 0;
     int choice;
 
@@ -25,6 +30,10 @@ int main(void)
     write_binary_cache(items, &item_count);
     free_items(items, item_count);
 
+    /* TODO: get low stock warning items */
+
+    /* TODO: get expirying soon items */
+
     print_user_instructions();
 
     /* NOTE: At this stage of execution, **items has been freed but item_count still holds a non zero value*/
@@ -35,18 +44,19 @@ int main(void)
 
         switch (choice)
         {
-        case 1:
-        case 2:
-        case 3:
+        case 1: /* sort by name */
+        case 2: /* sort by quantity */
+        case 3: /* sort by expiry date */
             handle_sort_choice(choice, &item_count);
             break;
-        case 4:
+        case 4: /* filter by expiry date */
             handle_filter_by_expiry(&item_count);
             break;
-        case 5:
+        case 5: /* filter by quantity */
             handle_filter_by_quantity(&item_count);
             break;
         case 6:
+        /* TODO: convert to LATeX here*/
             printf("Exiting... Saving to LaTeX\n");
             return 0;
         default:

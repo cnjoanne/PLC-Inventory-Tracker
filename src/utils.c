@@ -3,7 +3,6 @@
 #include <string.h>
 #include "item.h"
 
-
 void free_items(Item **items, int count){
 /* 
 Frees memory allocated for items

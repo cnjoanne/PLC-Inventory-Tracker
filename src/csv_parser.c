@@ -214,14 +214,13 @@ int load_and_parse_csv(Item ***items, int *item_count)
     printf("Enter csv path: ");
     scanf("%255s", filepath);
 
-
-
     /* 
     Parse CSV file
     Note: global item_count updated here 
     */
     csv_is_valid = parse_csv(filepath, items, item_count); 
 
+    /* Checks if CSV is valid */
     if (csv_is_valid == 0) {
         printf("\033[32mcsv is valid.\033[0m\n");
         printf("\033[32mSuccessfully parsed %d valid items:\033[0m\n", *item_count);

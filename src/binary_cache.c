@@ -47,19 +47,9 @@ void write_binary_cache(Item **items, int *item_count){
 }
 
 Item ** read_binary_cache(int *item_count){
-    /* 
-    Read binary cache file and convert to array of pointers
-    Input: pointer to array of items, pointer to 
-    Output: array of pointers to items
-    */
-
-    /* Variables */
-    int i, j, num_items;
+    int i, j,num_items;
     long file_size;
     Item ** items;
-
-
-    /* create pointer to binary cache file */
     FILE *bin_cache;
 
     /* buffer to store path of binary cache file*/
@@ -95,12 +85,6 @@ Item ** read_binary_cache(int *item_count){
         return NULL; 
     }
 
-    /* error handling */ 
-    if (num_items != *item_count){
-        printf("Number of items read not equal to original number of valid items\n");
-        return NULL;
-    }
-
     /* Allocate memory for an array of pointers */
     items = malloc(num_items * sizeof(Item *));
 
@@ -109,6 +93,13 @@ Item ** read_binary_cache(int *item_count){
         fclose(bin_cache);
         return NULL;
     }
+
+     /* error handling */ 
+     if (num_items != *item_count){
+        printf("Number of items read not equal to original number of valid items\n");
+        return NULL;
+    }
+
 
     /*  Read items into allocated structs */
     for (i = 0; i < num_items; i++) {

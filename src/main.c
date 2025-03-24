@@ -15,8 +15,10 @@ int main(void)
 {
     Item **items = NULL;
     Item **low_stock_items = NULL;
-    Item **expirying_soon_items = NULL;
+    /* Item **expirying_soon_items = NULL; */
     int item_count = 0;
+    int low_stock_count = 0;
+    /* int expirying_soon_count = 0; */
     int choice;
 
     /* Print instruction to upload CSV*/
@@ -31,6 +33,7 @@ int main(void)
     free_items(items, item_count);
 
     /* TODO: get low stock warning items */
+    low_stock_items = get_low_stock_items(&low_stock_count, LOW_STOCK_LIMIT, item_count);
 
     /* TODO: get expirying soon items */
 
@@ -56,8 +59,10 @@ int main(void)
             handle_filter_by_quantity(&item_count);
             break;
         case 6:
-        /* TODO: convert to LATeX here*/
+            /* TODO: convert to LATeX here*/
             printf("Exiting... Saving to LaTeX\n");
+            printf("low srock count: %d\n", low_stock_count);
+            free_items(low_stock_items, low_stock_count);
             return 0;
         default:
             printf("Invalid option! Please enter 1 to 6.\n");
@@ -65,5 +70,7 @@ int main(void)
                 ;
         }
     }
+
+
     return 0;
 }

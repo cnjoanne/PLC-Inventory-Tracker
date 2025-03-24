@@ -191,5 +191,26 @@ void handle_filter_by_quantity(int* item_count)
         free(filtered[i]);
     }
     free(filtered); 
+    /* TODO: btw why is the *item_count here a pointer?*/
     free_items(items, *item_count);
+}
+
+
+Item ** get_low_stock_items(int *low_stock_count, int limit, int item_count){
+    Item ** items;
+    Item ** low_stock_items;
+
+    items = read_binary_cache(&item_count);
+    if (!items) return NULL;
+
+    low_stock_items = filter_items_by_quantity(items, item_count, limit, low_stock_count);
+    printf("%d\n", *low_stock_count);
+    if (*low_stock_count <= 0) {
+        printf("No items found.\n");
+    }
+
+    free_items(items, item_count);
+
+    return low_stock_items;
+
 }

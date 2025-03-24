@@ -6,6 +6,7 @@
 #include "csv_parser.h"
 #include "sorting.h"
 #include "filtering.h"
+#include "latex_export.h"
 
 #define LOW_STOCK_QUANTITY 5
 #define EXPIRING_SOON_LIMIT 12/12/2025
@@ -286,9 +287,19 @@ int main(void)
 
         else if (choice == 6)
         {
+            items = NULL;
+            items = read_binary_cache(&item_count);
             printf("Exiting...\n");
-            printf("Saving to LaTeX\n");
             /* TODO: LaTeX conversion here*/
+            /* sample testing -- zhenghan */ 
+            to_latex(items, items, items, 2, 2, 2);
+
+            for (i = 0; i < item_count; i++)
+            {
+                free(items[i]);
+            }
+            free(items);
+            
             break;
         }
         else

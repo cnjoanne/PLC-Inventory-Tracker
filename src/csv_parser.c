@@ -4,6 +4,8 @@
 #include "item.h"
 #include "csv_parser.h"
 
+#include <regex.h>
+
 #define MAX_LINE_LENGTH 200
 #define MAX_ITEM_NAME_LENGTH 40
 #define MAX_EXPIRY_DATE_LENGTH 11
@@ -56,6 +58,29 @@ int date_is_valid(const char *date){
 
 int item_name_is_valid(const char *item_name){
     /* Only accepts alphabets, " ", "(", ")", ",", "-" */
+    regex_t reegex;
+    int value;
+
+    const char *pattern = "^[A-Za-z][A-Za-z,() -]*[A-Za-z)]$";
+    
+    value = regcomp(&reegex, pattern, REG_EXTENDED); /* value = 0 when successful */
+    if (value){
+        fprintf(stderr, "Could not compile regex. ");
+        return -1;
+    }
+
+    value = regexec(&reegex, item_name, 0, NULL, 0);
+    regfree(&reegex);
+
+    if (value == 0){
+        return 0; /*valid string*/
+    } else {
+        /* printf("Invalid character in item name. "); */
+        return -1;
+    }
+
+
+    /* 
     int i;
     for (i=0; i < strlen(item_name); i++){
         if (!((item_name[i] >='A' && item_name[i] <= 'Z') ||
@@ -70,6 +95,7 @@ int item_name_is_valid(const char *item_name){
         }
     }
     return 0;
+    */
 }
 
 int data_is_valid(const char *item_name, const char *quantity_str, const char *expiry_date){

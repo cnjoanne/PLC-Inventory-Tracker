@@ -21,6 +21,8 @@ int main(void)
     /* int expirying_soon_count = 0; */
     int choice;
 
+    int i;
+
     /* Print instruction to upload CSV*/
 
     if (!load_and_parse_csv(&items, &item_count))
@@ -32,7 +34,7 @@ int main(void)
     write_binary_cache(items, &item_count);
     free_items(items, item_count);
 
-    /* TODO: get low stock warning items */
+    /* get low stock warning items */
     low_stock_items = get_low_stock_items(&low_stock_count, LOW_STOCK_LIMIT, item_count);
 
     /* TODO: get expirying soon items */
@@ -61,7 +63,24 @@ int main(void)
         case 6:
             /* TODO: convert to LATeX here*/
             printf("Exiting... Saving to LaTeX\n");
-            printf("low srock count: %d\n", low_stock_count);
+
+            /* ===== checker, to remove after========*/
+            printf("For low stock quantity of %d: \n", low_stock_count);
+            for (i=0; i < low_stock_count; i++){
+                printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
+                    low_stock_items[i]->item_name, low_stock_items[i]->quantity, low_stock_items[i]->expiry_date);
+            }      
+
+            items = NULL;
+            items = read_binary_cache(&item_count);
+            printf("For items user manages, count: %d\n", item_count);
+            for (i=0; i < item_count; i++){
+                printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
+                    items[i]->item_name, items[i]->quantity, items[i]->expiry_date);
+            }
+            free_items(items, item_count);
+            /*=======================================*/
+
             free_items(low_stock_items, low_stock_count);
             return 0;
         default:
@@ -70,7 +89,5 @@ int main(void)
                 ;
         }
     }
-
-
     return 0;
 }

@@ -160,6 +160,7 @@ void handle_filter_by_expiry(int* item_count)
         free(filtered[i]);
     }
     free(filtered); 
+    *item_count = filtered_count;
     free_items(items, *item_count);
 }
 
@@ -191,7 +192,8 @@ void handle_filter_by_quantity(int* item_count)
         free(filtered[i]);
     }
     free(filtered); 
-    /* TODO: btw why is the *item_count here a pointer?*/
+
+    *item_count = filtered_count;
     free_items(items, *item_count);
 }
 

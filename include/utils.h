@@ -3,4 +3,6 @@
 
 #include "item.h"
 void free_items(Item **items, int count);
+
+char * get_time();
 #endif

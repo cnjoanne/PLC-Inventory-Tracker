@@ -15,12 +15,12 @@ int main(void)
 {
     Item **items = NULL;
     Item **low_stock_items = NULL;
-    /* Item **expirying_soon_items = NULL; */
+    Item **expirying_soon_items = NULL;
     int item_count = 0;
     int low_stock_count = 0;
-    /* int expirying_soon_count = 0; */
+    int expirying_soon_count = 0;
     int choice;
-
+    char current_date[11];
     int i;
 
     /* Print instruction to upload CSV*/
@@ -38,6 +38,10 @@ int main(void)
     low_stock_items = get_low_stock_items(&low_stock_count, LOW_STOCK_LIMIT, item_count);
 
     /* TODO: get expirying soon items */
+    expirying_soon_items = get_expirying_soon_items(&expirying_soon_count, EXPIRY_DATE_LIMIT, item_count);
+
+    current_date = get_time();
+    printf(current_date);
 
     print_user_instructions();
 
@@ -82,6 +86,8 @@ int main(void)
             /*=======================================*/
 
             free_items(low_stock_items, low_stock_count);
+            free_items(expirying_soon_items, expirying_soon_count);
+
             return 0;
         default:
             printf("Invalid option! Please enter 1 to 6.\n");

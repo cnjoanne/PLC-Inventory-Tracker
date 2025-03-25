@@ -9,4 +9,5 @@ void handle_filter_by_expiry(int *item_count);
 void handle_filter_by_quantity(int *item_count);
 
 Item ** get_low_stock_items(int *low_stock_count, int limit, int item_count);
+Item ** get_expirying_soon_items(int *expirying_soon_count, char *limit, int item_count);
 #endif

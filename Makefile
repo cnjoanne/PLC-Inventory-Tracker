@@ -24,7 +24,7 @@ all: $(EXEC)
 # @mkdir -p $(BIN_DIR)
 $(EXEC): $(OBJ)
 	@mkdir -p $(BIN_DIR) || @if not exist $(BIN_DIR) mkdir $(BIN_DIR)
-	$(CC) $(OBJ) -o $(EXEC)
+	$(CC) $(OBJ) -o $(EXEC) -lregex
 
 # rule to compile source file (*.c) to object files (*.o)
 # @mkdir -p $(OBJ_DIR)

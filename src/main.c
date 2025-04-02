@@ -9,16 +9,16 @@
 #include "utils.h"
 
 #define LOW_STOCK_LIMIT 5
-#define EXPIRY_DATE_LIMIT 12/12/2025
+#define EXPIRY_DATE_LIMIT "12/12/2023"
 
 int main(void)
 {
     Item **items = NULL;
     Item **low_stock_items = NULL;
-    /* Item **expirying_soon_items = NULL; */
+    Item **expirying_soon_items = NULL;
     int item_count = 0;
     int low_stock_count = 0;
-    /* int expirying_soon_count = 0; */
+    int expirying_soon_count = 0;
     int choice;
 
     int i;
@@ -37,7 +37,9 @@ int main(void)
     /* get low stock warning items */
     low_stock_items = get_low_stock_items(&low_stock_count, LOW_STOCK_LIMIT, item_count);
 
-    /* TODO: get expirying soon items */
+    /* get expirying soon items */
+    expirying_soon_items = get_expirying_items(&expirying_soon_count, EXPIRY_DATE_LIMIT, item_count);
+
 
     print_user_instructions();
 
@@ -65,15 +67,21 @@ int main(void)
             printf("Exiting... Saving to LaTeX\n");
 
             /* ===== checker, to remove after========*/
-            printf("For low stock quantity of %d: \n", low_stock_count);
+            printf("\033[34mFor low stock quantity of %d: \033[0m \n", low_stock_count);
             for (i=0; i < low_stock_count; i++){
                 printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
                     low_stock_items[i]->item_name, low_stock_items[i]->quantity, low_stock_items[i]->expiry_date);
             }      
 
+            printf("\033[34mFor expirying soon of %d: \033[0m \n", expirying_soon_count);
+            for (i=0; i < expirying_soon_count; i++){
+                printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
+                    expirying_soon_items[i]->item_name, expirying_soon_items[i]->quantity, expirying_soon_items[i]->expiry_date);
+            }   
+
             items = NULL;
             items = read_binary_cache(&item_count);
-            printf("For items user manages, count: %d\n", item_count);
+            printf("\033[34mFor items user manages, count: %d \033[0m \n", item_count);
             for (i=0; i < item_count; i++){
                 printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
                     items[i]->item_name, items[i]->quantity, items[i]->expiry_date);
@@ -82,6 +90,7 @@ int main(void)
             /*=======================================*/
 
             free_items(low_stock_items, low_stock_count);
+            free_items(expirying_soon_items, expirying_soon_count);
             return 0;
         default:
             printf("Invalid option! Please enter 1 to 6.\n");

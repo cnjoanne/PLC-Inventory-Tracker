@@ -7,6 +7,8 @@
 #include "sorting.h"
 #include "binary_cache.h"
 
+#include <time.h>
+
 
 void parse_date(const char *date_str, int *day, int *month, int *year)
 {
@@ -214,5 +216,30 @@ Item ** get_low_stock_items(int *low_stock_count, int limit, int item_count){
     free_items(items, item_count);
 
     return low_stock_items;
+
+}
+
+
+Item ** get_expirying_items(int *expirying_soon_count, char *expiry_limit, int item_count){
+    Item ** items;
+    Item ** expirying_soon_items;
+    char today_date[11];
+
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    strftime(today_date, 11, "%d/%m/%Y", &tm);
+
+    items = read_binary_cache(&item_count);
+    if (!items) return NULL;
+
+    expirying_soon_items = filter_items_by_expiry(items, item_count, expiry_limit, today_date, expirying_soon_count);
+    printf("%d\n", *expirying_soon_count);
+    if (*expirying_soon_count <= 0) {
+        printf("No items found.\n");
+    }
+
+    free_items(items, item_count);
+
+    return expirying_soon_items;
 
 }

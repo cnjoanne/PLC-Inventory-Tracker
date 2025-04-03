@@ -79,23 +79,6 @@ int item_name_is_valid(const char *item_name){
         return -1;
     }
 
-
-    /* 
-    int i;
-    for (i=0; i < strlen(item_name); i++){
-        if (!((item_name[i] >='A' && item_name[i] <= 'Z') ||
-            (item_name[i] >= 'a' && item_name[i] <= 'z')||
-            item_name[i] == ' ' || item_name[i] == '(' ||
-            item_name[i] == ')' || item_name[i] == ',' ||
-            item_name[i] == '-'))
-        {
-
-            printf("Invalid character in item name. ");
-            return 1;
-        }
-    }
-    return 0;
-    */
 }
 
 int data_is_valid(const char *item_name, const char *quantity_str, const char *expiry_date){

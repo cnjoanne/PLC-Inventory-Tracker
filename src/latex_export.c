@@ -7,9 +7,15 @@
 #include <stdlib.h>
 #include "latex_export.h"
 #include "item.h"
-int i;
+
+#include <time.h>
+
+#define OUTPUT_FILE "./output/stock_report.text"
+
 void write_table(FILE *file, Item **items, int num_rows, char* title)
 {
+    int i;
+
     fprintf(file, "\\section*{%s}\n", title);
     fprintf(file, "\\begin{tabular}{|c|c|c|}\n");
     fprintf(file, "\\hline\n");
@@ -32,12 +38,21 @@ void write_table(FILE *file, Item **items, int num_rows, char* title)
 void to_latex(Item** input_low_stock, Item** input_expiring_stock, Item** input_sorted_stock,
               int num_low_stock, int num_expiring_stock, int num_sorted_stock)
 {
-    FILE *file = fopen("stock_report.tex", "w");
-    if (!file)
-    {
-        perror("Error opening file");
-        return;
-    }
+    char latex_export_path[256];
+    FILE *file;
+
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+    snprintf(latex_export_path, sizeof(latex_export_path), "./output/stock_report_%02d%02d%04d-%02d%02d%02d.tex",
+         t->tm_mday, t->tm_mon + 1, t->tm_year + 1900,
+         t->tm_sec, t->tm_min, t->tm_hour);
+
+    file = fopen(latex_export_path, "w");
+        if (!file)
+        {
+            perror("Error opening file");
+            return;
+        }
 
     fprintf(file, "\\documentclass{article}\n\\begin{document}\n");
 

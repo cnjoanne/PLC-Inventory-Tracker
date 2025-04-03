@@ -10,3 +10,8 @@ Afterwards, run to remove *.obj files:
 ```
 > make clean
 ```
+
+To remove reports generated, run:   
+```
+make clean-reports
+```

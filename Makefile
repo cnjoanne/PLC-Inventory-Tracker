@@ -21,21 +21,16 @@ EXEC = $(BIN_DIR)/main.exe
 all: $(EXEC)
 
 # rule to build executable
-# @mkdir -p $(BIN_DIR)
 $(EXEC): $(OBJ)
 	@mkdir -p $(BIN_DIR) || @if not exist $(BIN_DIR) mkdir $(BIN_DIR)
 	$(CC) $(OBJ) -o $(EXEC) -lregex
 
 # rule to compile source file (*.c) to object files (*.o)
-# @mkdir -p $(OBJ_DIR)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR) || @if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # remove object files
-# rm -rf $(OBJ_DIR)
-# @if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
-# @if exist $(BIN_DIR)/main.exe del /f /q $(BIN_DIR)\main.exe
 clean:
 ifeq ($(OS),Windows)
 	@if exist "$(OBJ_DIR)" rmdir /s /q "$(OBJ_DIR)"
@@ -45,4 +40,12 @@ else
 	@if [ -d "$(OBJ_DIR)" ]; then rm -rf "$(OBJ_DIR)"; fi
 	@if [ -f "$(BIN_DIR)/main.exe" ]; then rm -f "$(BIN_DIR)/main.exe"; fi
 	@if [ -f "$(CAC_DIR)/bin_cache.bin" ]; then rm -f "$(CAC_DIR)/bin_cache.bin"; fi
+endif
+
+# clean latex reports in ./output/*.tex
+clean-reports:
+ifeq ($(OS),Windows)
+	@if exist "output\*.tex" del /f /q output\*.tex
+else
+	@if ls output/*.tex 1> /dev/null 2>&1; then rm -f output/*.tex; fi
 endif

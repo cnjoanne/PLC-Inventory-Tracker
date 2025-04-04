@@ -17,9 +17,10 @@ void write_table(FILE *file, Item **items, int num_rows, char* title)
     int i;
 
     fprintf(file, "\\section*{%s}\n", title);
-    fprintf(file, "\\begin{tabular}{|c|c|c|}\n");
+    fprintf(file, "\\noindent\\hspace*{-\\oddsidemargin}");
+    fprintf(file, "\\begin{tabular}{|p{0.4\\linewidth}|p{0.3\\linewidth}|p{0.3\\linewidth}|}\n");
     fprintf(file, "\\hline\n");
-    fprintf(file, "Name & Quantity & Expiry Date");
+    fprintf(file, "\\textbf{Name} & \\textbf{Quantity} & \\textbf{Expiry Date}");
     fprintf(file, "%s\n", "\\\\");
     fprintf(file, "\\hline\n");
 
@@ -54,7 +55,7 @@ void to_latex(Item** input_low_stock, Item** input_expiring_stock, Item** input_
             return;
         }
 
-    fprintf(file, "\\documentclass{article}\n\\begin{document}\n");
+    fprintf(file, "\\documentclass{article}\n\\begin{document}\n\\vspace*{-1in}\n");
 
     write_table(file, input_low_stock, num_low_stock, "Low Stock Items");
     write_table(file, input_expiring_stock, num_expiring_stock, "Expiring Stock Items");

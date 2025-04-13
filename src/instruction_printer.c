@@ -7,9 +7,9 @@ void print_upload_instructions(void)
     printf("\033[34mExample: ./data/input.csv\033[0m\n");
 }
 
+/* instructions */
 void print_user_instructions(void)
 {
-    /* TODO: Add on instructions */
     printf("===============================================\n");
     printf("\033[34mInstruction for user....\033[0m\n");
     printf("\033[34mTo sort items by name, Enter: 1.\033[0m\n");

@@ -11,7 +11,7 @@
 #define MAX_EXPIRY_DATE_LENGTH 11
 
 
-/* TODO: Checks to ensure input csv contents are correct */
+/* Checks to ensure input csv contents are correct */
 int quantity_is_valid(const char *quantity_str){
     int i;
     for (i = 0; i < strlen(quantity_str); i++){
@@ -244,7 +244,3 @@ int load_and_parse_csv(Item ***items, int *item_count)
         return 0;
     }
 }
-
-
-/* Input: input.csv file pointer*/
-/* Output: returns array(point of array) of items*/

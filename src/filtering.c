@@ -86,9 +86,11 @@ Item **filter_items_by_quantity_fsm(Item **items, int count, int quantity, int *
         ERROR,
         DONE
     } state = INIT;
-    int i = 0;
-    int j = 0;
+    int i, j; 
     Item **filtered_items = NULL;
+
+    i = 0;
+    j = 0;
 
     while (1)
     {

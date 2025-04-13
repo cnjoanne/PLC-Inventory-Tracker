@@ -41,7 +41,6 @@ int main(void)
     /* get expirying soon items */
     expirying_soon_items = get_expirying_items(&expirying_soon_count, EXPIRY_DATE_LIMIT, item_count);
 
-
     print_user_instructions();
 
     /* NOTE: At this stage of execution, **items has been freed but item_count still holds a non zero value*/
@@ -69,23 +68,26 @@ int main(void)
 
             /* ===== checker, to remove after========*/
             printf("\033[34mFor low stock quantity of %d: \033[0m \n", low_stock_count);
-            for (i=0; i < low_stock_count; i++){
+            for (i = 0; i < low_stock_count; i++)
+            {
                 printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
-                    low_stock_items[i]->item_name, low_stock_items[i]->quantity, low_stock_items[i]->expiry_date);
-            }      
+                       low_stock_items[i]->item_name, low_stock_items[i]->quantity, low_stock_items[i]->expiry_date);
+            }
 
             printf("\033[34mFor expirying soon of %d: \033[0m \n", expirying_soon_count);
-            for (i=0; i < expirying_soon_count; i++){
+            for (i = 0; i < expirying_soon_count; i++)
+            {
                 printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
-                    expirying_soon_items[i]->item_name, expirying_soon_items[i]->quantity, expirying_soon_items[i]->expiry_date);
-            }   
+                       expirying_soon_items[i]->item_name, expirying_soon_items[i]->quantity, expirying_soon_items[i]->expiry_date);
+            }
 
             items = NULL;
             items = read_binary_cache(&item_count);
             printf("\033[34mFor items user manages, count: %d \033[0m \n", item_count);
-            for (i=0; i < item_count; i++){
+            for (i = 0; i < item_count; i++)
+            {
                 printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
-                    items[i]->item_name, items[i]->quantity, items[i]->expiry_date);
+                       items[i]->item_name, items[i]->quantity, items[i]->expiry_date);
             }
             to_latex(expirying_soon_items, low_stock_items, items, expirying_soon_count, low_stock_count, item_count);
             free_items(items, item_count);

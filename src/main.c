@@ -12,6 +12,17 @@
 #define LOW_STOCK_LIMIT 5
 #define EXPIRY_DATE_LIMIT "12/12/2023"
 
+typedef enum {
+    START, 
+    VALIDATE_CSV,
+    AWAIT_INPUT,
+    SORTED_CONTENTS,
+    FILTERED_BY_QUANITY,
+    FILTERED_BY_DATE,
+    INVALID_INPUT,
+    EXPORT_AND_EXIT,
+} State;
+
 int main(void)
 {
     Item **items = NULL;
@@ -23,9 +34,16 @@ int main(void)
     int choice;
 
     int i;
+    
+    State state = START;
+
+
+
+    while (state != EXPORT_AND_EXIT){
+
+    }
 
     /* Print instruction to upload CSV*/
-
     if (!load_and_parse_csv(&items, &item_count))
     {
         return 1;

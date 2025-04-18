@@ -17,10 +17,10 @@ int quantity_is_valid(const char *quantity_str){
     for (i = 0; i < strlen(quantity_str); i++){
         if (quantity_str[i] < 48 || quantity_str[i] > 57){
             printf("Invalid character. ");
-            return 1;
+            return 0;
         }
     }
-    return 0;
+    return 1;
 }
 
 int date_is_valid(const char *date){
@@ -28,32 +28,32 @@ int date_is_valid(const char *date){
     int is_leap;
     if (sscanf(date, "%2d/%2d/%4d", &day, &month, &year) != 3){
         printf("Date format is invalid. ");
-        return 1;
+        return 0;
     }
     if (day < 1 || day > 31){ /* Day */
         printf("Date out of range. ");
-        return 1;
+        return 0;
     }
     if (month < 1 || month > 12){ /* Month */
         printf("Date out of range. ");
-        return 1;
+        return 0;
     }
     if ((month == 2 || month == 4 || month == 6 || month == 9 || month == 11) && day > 30){ /* For feb, apr, june, sep, nov*/
         printf("Date out of range. ");
-        return 1;
+        return 0;
     }
     if (month == 2){ /* For feb */
         is_leap = ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
         if (is_leap && day > 29){
             printf("Date out of range. ");
-            return 1;
+            return 0;
         }
         if (!is_leap && day > 28){
             printf("Date out of range. ");
-            return 1;
+            return 0;
         }
     }
-    return 0;
+    return 1;
 }
 
 int item_name_is_valid(const char *item_name){
@@ -73,7 +73,7 @@ int item_name_is_valid(const char *item_name){
     regfree(&reegex);
 
     if (value == 0){
-        return 0; /*valid string*/
+        return 1; /*valid string*/
     } else {
         /* printf("Invalid character in item name. "); */
         return -1;
@@ -82,18 +82,18 @@ int item_name_is_valid(const char *item_name){
 }
 
 int data_is_valid(const char *item_name, const char *quantity_str, const char *expiry_date){
-    int is_valid = 0;
+    int is_valid = 1;
     if (item_name_is_valid(item_name) != 0 ){
         printf("Invalid item name %s\n", item_name);
-        is_valid = 1;
+        is_valid = 0;
     }
     if (quantity_is_valid(quantity_str) != 0){
         printf("Invalid quantity %s\n", quantity_str);
-        is_valid = 1;
+        is_valid = 0;
     }
     if (date_is_valid(expiry_date) != 0){
         printf("Invalid expiry date %s\n", expiry_date);
-        is_valid = 1;
+        is_valid = 0;
     }
     return is_valid;
 }
@@ -230,7 +230,7 @@ int load_and_parse_csv(Item ***items, int *item_count)
     csv_is_valid = parse_csv(filepath, items, item_count); 
 
     /* Checks if CSV is valid */
-    if (csv_is_valid == 0) {
+    if (csv_is_valid == 1) {
         printf("\033[32mcsv is valid.\033[0m\n");
         printf("\033[32mSuccessfully parsed %d valid items:\033[0m\n", *item_count);
 

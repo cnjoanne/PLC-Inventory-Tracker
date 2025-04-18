@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
 #include "item.h"
 #include "csv_parser.h"
-
-#include <regex.h>
 
 #define MAX_LINE_LENGTH 200
 #define MAX_ITEM_NAME_LENGTH 40
@@ -17,43 +16,158 @@ int quantity_is_valid(const char *quantity_str){
     for (i = 0; i < strlen(quantity_str); i++){
         if (quantity_str[i] < 48 || quantity_str[i] > 57){
             printf("Invalid character. ");
-            return 1;
+            return 0;
         }
     }
-    return 0;
+    return 1;
 }
 
 int date_is_valid(const char *date){
     int year, month, day;
     int is_leap;
-    if (sscanf(date, "%2d/%2d/%4d", &day, &month, &year) != 3){
-        printf("Date format is invalid. ");
-        return 1;
+    char c;
+
+    typedef enum {
+        START,
+        DAY1_VALID, DAY2_VALID,
+        SEP1_VALID,
+        MONTH1_VALID, MONTH2_VALID, 
+        SEP2_VALID, 
+        YEAR1_VALID, YEAR2_VALID, YEAR3_VALID, YEAR4_VALID, 
+        DATE_VALID, 
+        INVALID_INPUT
+    } State;
+
+    State state = START;
+    day = 0;
+    month = 0;
+    year = 0;
+
+    while (*date && state != INVALID_INPUT){
+        c = *date++;
+        switch(state){
+            case START:
+                if (c >= '0' && c <= '9'){
+                    state = DAY1_VALID;
+                    day = 10 * (c - '0');
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case DAY1_VALID:
+                if (c >= '0' && c <= '9'){
+                    state = DAY2_VALID;
+                    day += c - '0';
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case DAY2_VALID:
+                if (c == '/'){
+                    state = SEP1_VALID;
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case SEP1_VALID:
+                if (c >= '0' && c <= '9'){
+                    state = MONTH1_VALID;
+                    month = 10 * (c - '0');
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case MONTH1_VALID:
+                if (c >= '0' && c <= '9'){
+                    state = MONTH2_VALID;
+                    month += c - '0';
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case MONTH2_VALID:
+                if (c == '/'){
+                    state = SEP2_VALID;
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case SEP2_VALID:
+                if (c >= '0' && c <= '9'){
+                    state = YEAR1_VALID;
+                    year = 1000 * (c - '0');
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case YEAR1_VALID:
+                if (c >= '0' && c <= '9'){
+                    state = YEAR2_VALID;
+                    year += 100 * (c - '0');
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case YEAR2_VALID:
+                if (c >= '0' && c <= '9'){
+                    state = YEAR3_VALID;
+                    year += 10 * (c - '0');
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case YEAR3_VALID:
+                if (c >= '0' && c <= '9'){
+                    state = YEAR4_VALID;
+                    year += c - '0';
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case YEAR4_VALID:
+                if (c == '\0'){
+                    state = DATE_VALID;
+                } else {
+                    state = INVALID_INPUT;
+                }
+                break;
+            case INVALID_INPUT:
+                printf("Date format is invalid. ");
+                return 0;
+            default:
+                state = INVALID_INPUT;
+        }   
     }
+    /* if (sscanf(date, "%2d/%2d/%4d", &day, &month, &year) != 3){
+        printf("Date format is invalid. ");
+        return 0;
+    } */
+
+    printf("%d, %d, %d\n", day, month, year);
     if (day < 1 || day > 31){ /* Day */
         printf("Date out of range. ");
-        return 1;
+        return 0;
     }
     if (month < 1 || month > 12){ /* Month */
         printf("Date out of range. ");
-        return 1;
+        return 0;
     }
     if ((month == 2 || month == 4 || month == 6 || month == 9 || month == 11) && day > 30){ /* For feb, apr, june, sep, nov*/
         printf("Date out of range. ");
-        return 1;
+        return 0;
     }
     if (month == 2){ /* For feb */
         is_leap = ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
         if (is_leap && day > 29){
             printf("Date out of range. ");
-            return 1;
+            return 0;
         }
         if (!is_leap && day > 28){
             printf("Date out of range. ");
-            return 1;
+            return 0;
         }
     }
-    return 0;
+    return 1;
 }
 
 int item_name_is_valid(const char *item_name){
@@ -66,38 +180,43 @@ int item_name_is_valid(const char *item_name){
     value = regcomp(&reegex, pattern, REG_EXTENDED); /* value = 0 when successful */
     if (value){
         fprintf(stderr, "Could not compile regex. ");
-        return -1;
+        return 0;
     }
 
     value = regexec(&reegex, item_name, 0, NULL, 0);
     regfree(&reegex);
 
     if (value == 0){
-        return 0; /*valid string*/
+        return 1; /*valid string*/
     } else {
         /* printf("Invalid character in item name. "); */
-        return -1;
+        return 0;
     }
 
 }
 
 int data_is_valid(const char *item_name, const char *quantity_str, const char *expiry_date){
-    int is_valid = 0;
-    if (item_name_is_valid(item_name) != 0 ){
+    int is_valid = 1;
+    if (item_name_is_valid(item_name) != 1){
         printf("Invalid item name %s\n", item_name);
-        is_valid = 1;
+        is_valid = 0;
     }
-    if (quantity_is_valid(quantity_str) != 0){
+    if (quantity_is_valid(quantity_str) != 1){
         printf("Invalid quantity %s\n", quantity_str);
-        is_valid = 1;
+        is_valid = 0;
     }
-    if (date_is_valid(expiry_date) != 0){
+    if (date_is_valid(expiry_date) != 1){
         printf("Invalid expiry date %s\n", expiry_date);
-        is_valid = 1;
+        is_valid = 0;
     }
     return is_valid;
 }
 
+/* Parses csv, 
+- stores contents in file in items array
+- updates item_counter
+- returns 1 if csv is parsed, 
+- returns 0 if csv parsing has failed */
 int parse_csv(const char *filepath, Item ***items, int *item_counter)
 {
     FILE *input_file;
@@ -188,7 +307,7 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
             continue;
         }
 
-        if (data_is_valid(item_name, quantity_str, expiry_date) != 0){ /* if not valid, skip*/
+        if (data_is_valid(item_name, quantity_str, expiry_date) != 1){ /* if not valid, skip*/
             printf("\033[31mError: Invalid line %d is not included\033[0m\n", i + 1);
             i++;
             continue;
@@ -210,7 +329,7 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
 
     *item_counter = valid_count;
     fclose(input_file);
-    return 0;
+    return 1;
 }
 
 int load_and_parse_csv(Item ***items, int *item_count)
@@ -230,7 +349,7 @@ int load_and_parse_csv(Item ***items, int *item_count)
     csv_is_valid = parse_csv(filepath, items, item_count); 
 
     /* Checks if CSV is valid */
-    if (csv_is_valid == 0) {
+    if (csv_is_valid == 1) {
         printf("\033[32mcsv is valid.\033[0m\n");
         printf("\033[32mSuccessfully parsed %d valid items:\033[0m\n", *item_count);
 

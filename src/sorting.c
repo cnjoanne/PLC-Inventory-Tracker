@@ -67,12 +67,12 @@ void sort_items(Item **items, int count, int sort_type, char choice)
     {
         if (choice == 'a')
         {
-            printf("Sorting by Name (A-Z)...\n");
+            printf("\033[33mSorting by Name (A-Z)...\033[0m\n");
             qsort(items, count, sizeof(Item *), compare_by_name);
         }
         else if (choice == 'b')
         {
-            printf("Sorting by Name (Z-A)...\n");
+            printf("\033[33mSorting by Name (Z-A)...\033[0m\n");
             qsort(items, count, sizeof(Item *), compare_by_name_reverse);
         }
     }
@@ -80,12 +80,12 @@ void sort_items(Item **items, int count, int sort_type, char choice)
     {
         if (choice == 'a')
         {
-            printf("Sorting by Quantity (Lowest to Highest)...\n");
+            printf("\033[33mSorting by Quantity (Lowest to Highest)...\033[0m\n");
             qsort(items, count, sizeof(Item *), compare_by_quantity);
         }
         else if (choice == 'b')
         {
-            printf("Sorting by Quantity (Highest to Lowest)...\n");
+            printf("\033[33mSorting by Quantity (Highest to Lowest)...\033[0m\n");
             qsort(items, count, sizeof(Item *), compare_by_quantity_reverse);
         }
     }
@@ -93,12 +93,12 @@ void sort_items(Item **items, int count, int sort_type, char choice)
     {
         if (choice == 'a')
         {
-            printf("Sorting by Expiry Date (Earliest to Latest)...\n");
+            printf("\033[33mSorting by Expiry Date (Earliest to Latest)...\033[0m\n");
             qsort(items, count, sizeof(Item *), compare_by_expiry);
         }
         else if (choice == 'b')
         {
-            printf("Sorting by Expiry Date (Latest to Earliest)...\n");
+            printf("\033[33mSorting by Expiry Date (Latest to Earliest)...\033[0m\n");
             qsort(items, count, sizeof(Item *), compare_by_expiry_reverse);
         }
     }

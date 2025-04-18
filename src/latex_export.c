@@ -14,7 +14,7 @@
 
 void write_table(FILE *file, Item **items, int num_rows, char* title)
 {
-    int i;
+    /*int i; */
 
     fprintf(file, "\\section*{%s}\n", title);
     fprintf(file, "\\noindent\\hspace*{-\\oddsidemargin}");
@@ -24,6 +24,7 @@ void write_table(FILE *file, Item **items, int num_rows, char* title)
     fprintf(file, "%s\n", "\\\\");
     fprintf(file, "\\hline\n");
 
+    /*
     for (i = 0; i < num_rows; i++)
     {
         fprintf(file, "%s & %d & %s %s\n", items[i]->item_name, items[i]->quantity, items[i]->expiry_date, "\\\\");
@@ -32,7 +33,7 @@ void write_table(FILE *file, Item **items, int num_rows, char* title)
         printf("end of table rows....\n");
         fprintf(file, "\\hline\n");
     }
-
+*/
     fprintf(file, "\\end{tabular}\n\n");
 }
 

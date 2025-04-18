@@ -4,7 +4,8 @@
 void print_upload_instructions(void)
 {
     printf("\033[34mHello! To upload csv path, enter the file path below.\033[0m\n");
-    printf("\033[34mExample: ./data/input.csv\033[0m\n");
+    printf("\033[34mExample: ./data/input.csv \033[0m\n");
+    printf("\033[34mTo quit, enter: quit\033[0m\n");
 }
 
 /* instructions */

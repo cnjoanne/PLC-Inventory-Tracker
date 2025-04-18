@@ -142,8 +142,6 @@ int date_is_valid(const char *date){
         printf("Date format is invalid. ");
         return 0;
     } */
-
-    printf("%d, %d, %d\n", day, month, year);
     if (day < 1 || day > 31){ /* Day */
         printf("Date out of range. ");
         return 0;
@@ -179,7 +177,7 @@ int item_name_is_valid(const char *item_name){
     
     value = regcomp(&reegex, pattern, REG_EXTENDED); /* value = 0 when successful */
     if (value){
-        fprintf(stderr, "Could not compile regex. ");
+        fprintf(stderr, "Could not compile regex for item name. ");
         return 0;
     }
 
@@ -232,7 +230,6 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
     if (!input_file)
     {
         perror("\033[31mError opening file\033[0m");
-        printf("\033[34mTry again :,)\033[0m\n");
         return -1;
     }
     printf("\033[32mFile uploaded successfully\033[0m\n");
@@ -302,13 +299,13 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
 
         /* check for valid input*/
         if (field_count != 3){ /* checks if all fields are filled per line */
-            printf("\033[31mError: Not all columns are filled at %d\033[0m\n", i + 1);
+            printf("\033[31mError: Not all columns are filled at csv line %d, hence not included\033[0m\n", i + 1);
             i++;
             continue;
         }
 
         if (data_is_valid(item_name, quantity_str, expiry_date) != 1){ /* if not valid, skip*/
-            printf("\033[31mError: Invalid line %d is not included\033[0m\n", i + 1);
+            printf("\033[31mError: Invalid csv line %d is not included for above issue\033[0m\n", i + 1);
             i++;
             continue;
         }
@@ -327,6 +324,11 @@ int parse_csv(const char *filepath, Item ***items, int *item_counter)
         i++;
     }
 
+    if (valid_count <= 0){
+        printf("\033[31mcsv file is empty\033[0m\n");
+        return 0;
+    }
+
     *item_counter = valid_count;
     fclose(input_file);
     return 1;
@@ -339,27 +341,37 @@ int load_and_parse_csv(Item ***items, int *item_count)
     int i;
 
     print_upload_instructions();
-    printf("Enter csv path: ");
-    scanf("%255s", filepath);
+    
+    while (1){
+        
+        printf("Enter csv path: ");
+        scanf("%255s", filepath);
 
-    /* 
-    Parse CSV file
-    Note: global item_count updated here 
-    */
-    csv_is_valid = parse_csv(filepath, items, item_count); 
-
-    /* Checks if CSV is valid */
-    if (csv_is_valid == 1) {
-        printf("\033[32mcsv is valid.\033[0m\n");
-        printf("\033[32mSuccessfully parsed %d valid items:\033[0m\n", *item_count);
-
-        for (i = 0; i < *item_count; i++) {
-            printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
-                   (*items)[i]->item_name, (*items)[i]->quantity, (*items)[i]->expiry_date);
+        /* quitting */
+        if (strcmp(filepath, "quit") == 0) {
+            printf("\033[31mquitting...\033[0m\n");
+            return 0;
         }
-        return 1;
-    } else {
-        printf("\033[34mcsv is not valid.\033[0m\n");
-        return 0;
+
+        /* Parse CSV file
+        Note: item_count updated here */
+        csv_is_valid = parse_csv(filepath, items, item_count); 
+
+        /* Checks if CSV is valid */
+        if (csv_is_valid == 1) {
+            printf("\033[32mcsv is valid.\033[0m\n");
+            printf("\033[32mSuccessfully parsed %d valid items:\033[0m\n", *item_count);
+
+            for (i = 0; i < *item_count; i++) {
+                printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
+                       (*items)[i]->item_name, (*items)[i]->quantity, (*items)[i]->expiry_date);
+            }
+            return 1;
+        } else {
+            printf("\033[31mcsv is not valid.\033[0m\n");
+            printf("\033[34mTry again :,) or to quit, enter: quit\033[0m\n");
+        }
     }
+
+
 }

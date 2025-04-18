@@ -36,9 +36,11 @@ int main(void)
     free_items(items, item_count);
 
     /* get low stock warning items */
+    printf("\033[33mPreparing alert for low stock items\033[0m");
     low_stock_items = get_low_stock_items(&low_stock_count, LOW_STOCK_LIMIT, item_count);
 
     /* get expirying soon items */
+    printf("\033[33mPreparing alert for expiring soon items\033[0m");
     expirying_soon_items = get_expirying_items(&expirying_soon_count, EXPIRY_DATE_LIMIT, item_count);
 
     print_user_instructions();
@@ -64,7 +66,7 @@ int main(void)
             break;
         case 6:
             /* TODO: convert to LATeX here*/
-            printf("Exiting... Saving to LaTeX\n");
+            printf("\033[33mExiting... Saving to LaTeX\033[0m\n");
 
             /* ===== checker, to remove after========*/
             printf("\033[34mFor low stock quantity of %d: \033[0m \n", low_stock_count);

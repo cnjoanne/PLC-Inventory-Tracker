@@ -56,7 +56,7 @@ Item **filter_items_by_expiry(Item **items, int count, const char *start_date, c
         return NULL;
     }
 
-    printf("\nFiltering items expiring between %s and %s...\n", start_date, end_date);
+    printf("\n\033[33mFiltering items expiring between %s and %s...\033[0m\n", start_date, end_date);
 
     for (i = 0; i < count; i++)
     {
@@ -106,7 +106,7 @@ Item **filter_items_by_quantity_fsm(Item **items, int count, int quantity, int *
             }
             else
             {
-                printf("\nFiltering items with quantity %d and lower...\n", quantity);
+                printf("\n\033[33mFiltering items with quantity %d and lower...\033[0m\n", quantity);
                 state = (count > 0) ? CHECK_ITEM : DONE;
             }
             break;
@@ -171,7 +171,7 @@ Item **filter_items_by_quantity(Item **items, int count, int quantity, int *filt
         return NULL;
     }
 
-    printf("\nFiltering items with quantity %d and lower...\n", quantity);
+    printf("\n\033[33mFiltering items with quantity %d and lower...\033[0m\n", quantity);
 
     for (i = 0; i < count; i++)
     {
@@ -245,19 +245,19 @@ void handle_filter_by_expiry(int *item_count)
     {
         /* NOTE: Using write_binary_cache here will not modify item_count but it will override the existing binary file. Do be careful about using this overwritten binary file when implementing get_low_stock and expiry date*/
         write_binary_cache(filtered, &filtered_count);
+
+        for (i = 0; i < filtered_count; i++)
+        {
+            free(filtered[i]);
+        }
+        free(filtered);
+        *item_count = filtered_count;
+        free_items(items, *item_count);
     }
     else
     {
-        printf("No items found in this range.\n");
+        printf("No items found in this range. Try again.\n");
     }
-
-    for (i = 0; i < filtered_count; i++)
-    {
-        free(filtered[i]);
-    }
-    free(filtered);
-    *item_count = filtered_count;
-    free_items(items, *item_count);
 }
 
 void handle_filter_by_quantity(int *item_count)
@@ -285,20 +285,20 @@ void handle_filter_by_quantity(int *item_count)
     {
         /* NOTE: Using write_binary_cache here will not modify item_count but it will override the existing binary file. Do be careful about using this overwritten binary file when implementing get_low_stock and expiry date*/
         write_binary_cache(filtered, &filtered_count);
+
+        for (i = 0; i < filtered_count; i++)
+        {
+            free(filtered[i]);
+        }
+        free(filtered);
+    
+        *item_count = filtered_count;
+        free_items(items, *item_count);
     }
     else
     {
-        printf("No items found.\n");
+        printf("No items found. Try again.\n");
     }
-
-    for (i = 0; i < filtered_count; i++)
-    {
-        free(filtered[i]);
-    }
-    free(filtered);
-
-    *item_count = filtered_count;
-    free_items(items, *item_count);
 }
 
 Item **get_low_stock_items(int *low_stock_count, int limit, int item_count)

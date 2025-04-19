@@ -1,0 +1,221 @@
+item,quantity,expiry-date
+Blue Jazz,18,18/12/2035
+Cauliflower,33,24/09/2035
+Garlic,81,12/03/2026
+Kale,69,17/08/2033
+Parsnip,62,04/04/2033
+Potato,68,13/05/2029
+Rhubarb,12,06/05/2028
+Tulip,38,14/06/2029
+Unmilled Rice (Irrigated),24,29/11/2025
+Unmilled Rice (Unirrigated),63,21/09/2029
+Carrot,14,08/03/2035
+Coffee Bean,24,27/04/2031
+Green Bean,32,12/02/2035
+Strawberry,55,03/07/2035
+Melon,14,25/09/2033
+Poppy,29,24/01/2026
+Radish,60,22/03/2029
+Red Cabbage,5,06/06/2030
+Starfruit,31,02/01/2031
+Summer Spangle,0,23/06/2030
+Sunflower,38,21/07/2033
+Wheat,41,01/02/2029
+Blueberry,38,16/11/2027
+Coffee Bean,62,08/08/2029
+Corn,84,28/05/2031
+Hops,4,31/12/2027
+Hot Pepper,44,23/02/2029
+Tomato,83,19/09/2031
+Summer Squash,79,29/11/2032
+Amaranth,9,22/05/2035
+Aichoke,69,15/03/2025
+Beet,44,03/01/2031
+Bok Choy,9,11/06/2035
+Fairy Rose,28,19/06/2027
+Pumpkin,39,25/10/2027
+Sweet Gem Berry,84,28/11/2029
+Wheat,28,07/04/2032
+Yam,58,05/02/2027
+Corn,99,25/12/2025
+Cranberries,92,29/06/2028
+Eggplant,31,23/03/2034
+Grape,28,12/05/2029
+Powdermelon,54,28/07/2030
+Cherry (Tree),77,14/11/2029
+Apricot (Tree),49,04/12/2025
+Ancient Fruit,7,22/09/2026
+Tulip,93,10/04/2034
+Apple (Tree),89,24/07/2024
+Pomegranate (Tree),54,04/05/2030
+Fairy Rose,90,17/09/2024
+Wild Horseradish,16,24/06/2032
+Daffodil,40,15/04/2027
+Leek,29,25/08/2030
+Dandelion,91,10/04/2031
+Spring Onion,31,03/07/2026
+Morel,8,17/12/2029
+Common Mushroom,68,30/10/2028
+Salmonberry,35,10/11/2035
+Spice Berry,36,10/04/2028
+Grape,37,31/03/2034
+Sweet Pea,39,02/05/2031
+Red Mushroom,91,17/07/2027
+Fiddlehead Fern,29,14/05/2035
+Wild Plum,91,14/03/2031
+Hazlenut,81,28/12/2030
+Blackberry,91,15/03/2033
+Chanterelle,54,28/11/2030
+Common Mushroom,33,31/07/2028
+Winter Root,80,10/09/2029
+Crystal Fruit,84,24/08/2034
+Snow Yam,46,25/09/2026
+Crocus,51,30/11/2033
+Nautilus Shell,70,30/12/2030
+Coral,10,07/04/2026
+Sea Urchin,44,30/01/2033
+Rainbow Shell,63,21/07/2030
+Clam,39,09/06/2034
+Mussel,34,13/06/2032
+Oyster,65,22/04/2030
+Red Mushroom,58,05/01/2029
+Purple Mushroom,23,31/07/2026
+Cave Carrot,32,02/03/2033
+Cactus Fruit,8,06/12/2029
+Coconut,75,10/10/2030
+Albacore,63,09/01/2031
+Anchovy,23,14/06/2034
+Angler,22,22/11/2032
+Bream,38,06/01/2026
+Bullhead,0,31/07/2029
+Carp,48,23/02/2027
+Catfish,18,21/03/2031
+Chub,36,23/01/2035
+Crimsonfish,82,19/05/2034
+Dorado,65,13/02/2029
+Eel,8,11/07/2026
+Ghostfish,13,24/05/2027
+Glacierfish,88,20/09/2025
+Halibut,53,10/08/2033
+Herring,94,04/12/2035
+Ice Pip,60,05/02/2032
+Largemouth Bass,6,12/09/2027
+Lava Eel,16,06/03/2032
+Legend,22,04/12/2032
+Lingcod,46,28/03/2034
+Mutant Carp,19,14/08/2027
+Octopus,89,02/04/2027
+Perch,99,20/11/2031
+Pike,39,19/07/2035
+Pufferfish,56,01/02/2028
+Rainbow Trout,80,12/10/2024
+Red Mullet,86,24/02/2032
+Red Snapper,25,30/12/2034
+Salmon,67,08/09/2026
+Sandfish,98,27/11/2032
+Sardine,13,17/02/2034
+Scorpion Carp,97,27/05/2026
+Sea Cucumer,23,19/03/2031
+Shad,35,24/07/2029
+Smallmouth Bass,32,10/05/2033
+Squid,10,27/10/2025
+Stonefish,39,09/06/2031
+Sturgeon,59,02/12/2029
+Sunfish,14,08/09/2032
+Super Cucumber,93,19/09/2027
+Tiger Trout,91,12/10/2028
+Tilapia,7,05/01/2030
+Tuna,27,19/02/2027
+Walleye,30,22/04/2030
+Woodskip,38,21/04/2034
+Beer,84,10/03/2029
+Pale Ale,43,22/06/2025
+Juice Formula,17,24/09/2028
+Wine Formula,5,01/10/2026
+Wild Honey,78,06/07/2024
+Tulip Honey,64,27/05/2034
+Blue Jazz Honey,67,04/06/2035
+Spangle Honey,86,02/07/2024
+Poppy Honey,74,04/06/2026
+Fairy Rose Honey,90,15/09/2033
+Pickles Formula,54,03/08/2029
+Jelly Formula,77,24/05/2033
+Mayonnaise,95,16/12/2024
+Duck Mayonnaise,59,10/09/2024
+Cheese,36,03/03/2026
+Goat Cheese,92,31/12/2027
+Truffle Oil,45,11/08/2028
+Oil,93,10/04/2029
+Maple Syrup,4,04/11/2033
+Oak Resin,9,24/09/2031
+Pine Tar,13,04/10/2035
+Fried Egg,59,10/09/2033
+Omelet,67,27/11/2026
+Salad,82,01/01/2031
+Cheese Califlower,90,03/11/2024
+Baked Fish,99,20/09/2035
+Parsnip Soup,72,22/06/2030
+Vegetable Stew,22,09/11/2033
+Complete Breakfast,86,27/07/2026
+Fried Calamari,66,19/03/2025
+Strange Bun,16,09/10/2034
+Lucky Lunch,55,13/06/2028
+Fried Mushroom,53,16/08/2025
+Pizza,44,21/07/2025
+Bean Hotpot,17,13/12/2031
+Glazed Yams,99,27/10/2027
+Carp Surprise,56,03/04/2034
+Hashbrowns,39,03/07/2033
+Pancakes,18,14/09/2033
+Salmon Dinner,84,17/08/2031
+Fish Taco,85,29/10/2030
+Crispy Bass,82,18/05/2024
+Pepper Poppers,39,11/08/2030
+Bread,44,07/12/2027
+Trout Soup,76,19/01/2034
+Chocolate Cake,32,19/10/2028
+Pink Cake,66,08/06/2031
+Rhubarb Pie,53,24/03/2025
+Cookie,99,08/11/2029
+Spaghetti,10,18/08/2033
+Fried Eel,73,12/09/2031
+Spicy Eel,51,26/06/2032
+Sashimi,34,10/03/2033
+Maki Roll,87,27/12/2030
+Tortilla,85,30/10/2026
+Red Plate,27,25/07/2026
+Eggplant Parmesan,40,10/08/2035
+Rice Pudding,46,06/02/2027
+Ice Cream,3,29/07/2025
+Blueberry Tart,25,02/03/2032
+Autumn's Bounty,8,06/10/2028
+Pumpkin Soup,10,04/09/2034
+Super Meal,17,04/04/2032
+Cranberry Sauce,26,06/12/2027
+Stuffing,19,12/11/2030
+Farmer's Lunch,37,27/06/2034
+Survival Burger,26,12/02/2030
+Dish O' The Sea,23,02/01/2034
+Miner's Treat,68,18/12/2032
+Roots Platter,33,25/10/2024
+Algae Soup,62,15/09/2035
+Pale Broth,26,04/01/2035
+Plum Pudding,58,09/01/2035
+Artichoke Dip,53,07/05/2032
+Stir Fry,53,16/03/2025
+Roasted Hazelnuts,18,03/06/2031
+Pumpkin Pie,36,25/05/2026
+Radish Salad,19,24/12/2029
+Fruit Salad,68,09/10/2026
+Blackberry Cobbler,75,06/03/2034
+Cranberry Candy,50,06/08/2032
+Bruschetta,20,18/08/2033
+Coleslaw,63,27/04/2030
+Fiddlehead Risotto,27,16/05/2033
+Poppyseed Muffin,59,13/10/2035
+Chowder,87,25/04/2033
+Lobster Bisque,59,11/06/2028
+Escargot,74,15/11/2027
+Fish Stew,91,27/01/2028
+Maple Bar,73,11/10/2031
+Crab Cakes,44,15/11/2026

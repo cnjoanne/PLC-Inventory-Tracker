@@ -65,24 +65,20 @@ int main(void)
             handle_filter_by_quantity(&item_count);
             break;
         case 6:
-            /* TODO: convert to LATeX here*/
             printf("\033[33mExiting... Saving to LaTeX\033[0m\n");
 
-            /* ===== checker, to remove after========*/
-            printf("\033[34mFor low stock quantity of %d: \033[0m \n", low_stock_count);
+            printf("\033[34mFor low stock quantity of %d: , count: %d \033[0m \n", LOW_STOCK_LIMIT, low_stock_count);
             for (i = 0; i < low_stock_count; i++)
             {
                 printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
                        low_stock_items[i]->item_name, low_stock_items[i]->quantity, low_stock_items[i]->expiry_date);
             }
-
-            printf("\033[34mFor expirying soon of %d: \033[0m \n", expirying_soon_count);
+            printf("\033[34mFor expirying soon of %s: , count: %d \033[0m \n", EXPIRY_DATE_LIMIT, expirying_soon_count);
             for (i = 0; i < expirying_soon_count; i++)
             {
                 printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
                        expirying_soon_items[i]->item_name, expirying_soon_items[i]->quantity, expirying_soon_items[i]->expiry_date);
             }
-
             items = NULL;
             items = read_binary_cache(&item_count);
             printf("\033[34mFor items user manages, count: %d \033[0m \n", item_count);
@@ -93,8 +89,6 @@ int main(void)
             }
             to_latex(expirying_soon_items, low_stock_items, items, expirying_soon_count, low_stock_count, item_count);
             free_items(items, item_count);
-            /*=======================================*/
-
             free_items(low_stock_items, low_stock_count);
             free_items(expirying_soon_items, expirying_soon_count);
             return 0;

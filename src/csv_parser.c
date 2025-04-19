@@ -173,7 +173,7 @@ int item_name_is_valid(const char *item_name){
     regex_t reegex;
     int value;
 
-    const char *pattern = "^[A-Za-z][A-Za-z,() -]*[A-Za-z)]$";
+    const char *pattern = "^[A-Za-z][A-Za-z,() -']*[A-Za-z)]$";
     
     value = regcomp(&reegex, pattern, REG_EXTENDED); /* value = 0 when successful */
     if (value){

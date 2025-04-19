@@ -30,9 +30,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR) || @if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-#test
-# TODO: Add tester here
-
 # remove object files
 clean:
 ifeq ($(OS),Windows)

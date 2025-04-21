@@ -80,42 +80,49 @@ Item **filter_items_by_quantity_fsm(Item **items, int count, int quantity, int *
 {
     enum State
     {
-        INIT,
+        START,
         CHECK_ITEM,
+        ALLOC_ITEM,
         COPY_ITEM,
         ERROR,
         DONE
-    } state = INIT;
-    int i, j; 
-    Item **filtered_items = NULL;
+    } state = START;
 
-    i = 0;
-    j = 0;
+    int i = 0, j = 0;
+    Item **filtered_items = NULL;
+    *filtered_count = 0;
 
     while (1)
     {
         switch (state)
         {
-        case INIT:
-            *filtered_count = 0;
+        case START:
+            printf("\nFiltering items with quantity %d and lower...\n", quantity);
+
             filtered_items = malloc(count * sizeof(Item *));
             if (!filtered_items)
             {
-                perror("Memory allocation failed for filtered items");
+                perror("Memory allocation failed for filtered items array");
                 state = ERROR;
+            }
+            else if (count > 0)
+            {
+                state = CHECK_ITEM;
             }
             else
             {
-                printf("\n\033[33mFiltering items with quantity %d and lower...\033[0m\n", quantity);
-                state = (count > 0) ? CHECK_ITEM : DONE;
+                state = DONE;
             }
             break;
 
         case CHECK_ITEM:
+            printf("entered CHECK_ITEM\n");
             if (i < count)
             {
                 if (items[i]->quantity <= quantity)
-                    state = COPY_ITEM;
+                {
+                    state = ALLOC_ITEM;
+                }
                 else
                 {
                     i++;
@@ -128,30 +135,39 @@ Item **filter_items_by_quantity_fsm(Item **items, int count, int quantity, int *
             }
             break;
 
-        case COPY_ITEM:
+        case ALLOC_ITEM:
+            printf("entered ALLOC_ITEM\n");
             filtered_items[*filtered_count] = malloc(sizeof(Item));
             if (!filtered_items[*filtered_count])
             {
                 perror("Memory allocation failed for individual item");
                 state = ERROR;
-                break;
             }
-            memcpy(filtered_items[*filtered_count], items[i], sizeof(Item));
-            (*filtered_count)++;
+            else
+            {
+                (*filtered_count)++;
+                state = COPY_ITEM;
+            }
+            break;
+
+        case COPY_ITEM:
+            printf("entered COPY_ITEM\n");
+            memcpy(filtered_items[*filtered_count - 1], items[i], sizeof(Item));
             i++;
             state = CHECK_ITEM;
             break;
 
         case ERROR:
-            if (filtered_items)
+            printf("entered ERROR\n");
+            for (j = 0; j < *filtered_count; j++)
             {
-                for (j = 0; j < *filtered_count; j++)
-                    free(filtered_items[j]);
-                free(filtered_items);
+                free(filtered_items[j]);
             }
+            free(filtered_items);
             return NULL;
 
         case DONE:
+            printf("entered DONE\n");
             return filtered_items;
         }
     }
@@ -276,7 +292,9 @@ void handle_filter_by_quantity(int *item_count)
             break;
         printf("Invalid input.\n");
         while (getchar() != '\n')
-            ;
+        {
+        }
+        continue;
     }
 
     /* filtered = filter_items_by_quantity(items, *item_count, quantity, &filtered_count); */
@@ -291,7 +309,7 @@ void handle_filter_by_quantity(int *item_count)
             free(filtered[i]);
         }
         free(filtered);
-    
+
         *item_count = filtered_count;
         free_items(items, *item_count);
     }

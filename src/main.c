@@ -66,13 +66,13 @@ int main(void)
         case 6: /* exit and save results to LaTeX */
             printf("\033[33mExiting... Saving to LaTeX\033[0m\n");
 
-            printf("\033[34mFor low stock quantity of %d: , count: %d \033[0m \n", LOW_STOCK_LIMIT, low_stock_count);
+            printf("\033[34mFor low stock quantity of %d, count: %d \033[0m \n", LOW_STOCK_LIMIT, low_stock_count);
             for (i = 0; i < low_stock_count; i++)
             {
                 printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
                        low_stock_items[i]->item_name, low_stock_items[i]->quantity, low_stock_items[i]->expiry_date);
             }
-            printf("\033[34mFor expirying soon of %s: , count: %d \033[0m \n", EXPIRY_DATE_LIMIT, expirying_soon_count);
+            printf("\033[34mFor expirying soon of %s, count: %d \033[0m \n", EXPIRY_DATE_LIMIT, expirying_soon_count);
             for (i = 0; i < expirying_soon_count; i++)
             {
                 printf("Item: %s, Quantity: %d, Expiry Date: %s\n",

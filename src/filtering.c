@@ -97,7 +97,7 @@ Item **filter_items_by_quantity_fsm(Item **items, int count, int quantity, int *
         switch (state)
         {
         case START:
-            printf("\nFiltering items with quantity %d and lower...\n", quantity);
+            printf("\n\033[33mFiltering items with quantity %d and lower...\033[0m\n", quantity);
 
             filtered_items = malloc(count * sizeof(Item *));
             if (!filtered_items)
@@ -116,7 +116,6 @@ Item **filter_items_by_quantity_fsm(Item **items, int count, int quantity, int *
             break;
 
         case CHECK_ITEM:
-            printf("entered CHECK_ITEM\n");
             if (i < count)
             {
                 if (items[i]->quantity <= quantity)
@@ -136,7 +135,6 @@ Item **filter_items_by_quantity_fsm(Item **items, int count, int quantity, int *
             break;
 
         case ALLOC_ITEM:
-            printf("entered ALLOC_ITEM\n");
             filtered_items[*filtered_count] = malloc(sizeof(Item));
             if (!filtered_items[*filtered_count])
             {
@@ -151,14 +149,12 @@ Item **filter_items_by_quantity_fsm(Item **items, int count, int quantity, int *
             break;
 
         case COPY_ITEM:
-            printf("entered COPY_ITEM\n");
             memcpy(filtered_items[*filtered_count - 1], items[i], sizeof(Item));
             i++;
             state = CHECK_ITEM;
             break;
 
         case ERROR:
-            printf("entered ERROR\n");
             for (j = 0; j < *filtered_count; j++)
             {
                 free(filtered_items[j]);
@@ -167,7 +163,6 @@ Item **filter_items_by_quantity_fsm(Item **items, int count, int quantity, int *
             return NULL;
 
         case DONE:
-            printf("entered DONE\n");
             return filtered_items;
         }
     }

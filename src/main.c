@@ -64,7 +64,7 @@ int main(void)
         case 5: /* filter by quantity */
             handle_filter_by_quantity(&item_count);
             break;
-        case 6:
+        case 6: /* exit and save results to LaTeX */
             printf("\033[33mExiting... Saving to LaTeX\033[0m\n");
 
             printf("\033[34mFor low stock quantity of %d: , count: %d \033[0m \n", LOW_STOCK_LIMIT, low_stock_count);

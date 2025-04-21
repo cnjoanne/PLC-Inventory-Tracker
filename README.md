@@ -1,16 +1,26 @@
 # PLC-Inventory-Tracker
 
 ## Project Overview
-This project validates and parses stock inventory data obtained from Stardew Valley, processes the information, and exports it as a LaTeX file for easy-to-read reports.  
+This project validates and parses stock inventory data obtained from Stardew Valley, processes the information, and exports it as a LaTeX file for easy-to-read reports. It is implemented in C in accordance with the project guidelines and to demonstrate proficiency in the C programming language.
+
 
 ## Input CSV Format
 The CSV input file has 3 header colums:   
 |item         |quantity     |expiry-date  |  
 |-------------|-------------|-------------|  
-|Blue Jazz    |6            |07/05/20227  |  
+|Cauliflower  |6            |07/05/2027   |  
 |Sunflower    |17           |10/12/2025   |  
 
 These files can be found in ```./data```.  
+
+## Validating Input Contents  
+When the user provides the path to the CSV file, the parser first verifies that is it a valid file path. It then reads the file line by line, ensuring that each line contains exactly three columns: item, quantity, and expiry-date.   
+For each line, the parser performs the following validations:   
+1.	The item field must contain a valid item name.  
+2.	The quantity must be a valid number.  
+3.	The expiry-date must be a properly formatted and actual date.  
+
+Once the items are valid, we store them in a binary cache. This binary cache will be referenced to process data (further eleaborated in Process Features).      
 
 ## Process Features  
 The system performs the following actions:
@@ -26,7 +36,7 @@ Users can choose from the following options:
     7.	Filter by expiry date within a user-specified range.  
     8.	Filter by quantity based on user-defined threshold.  
 
-To view the LaTeX file, we can look in  where the unique .tex file is stored. To view it, you can open the file in a LaTeX complier such as Overleaf (an online LaTeX complier).    
+Once the user is satisfied with the sorted/filtered data, they can export it.  
 
 ## LaTeX Report  
 The generated LaTeX file can be found in the ```./output``` directory, where it is stored as a unique ```.tex``` file. To view the report, open the file in a LaTeX compiler such as Overleaf (an online LaTeX editor).

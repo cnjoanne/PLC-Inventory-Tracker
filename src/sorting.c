@@ -9,6 +9,7 @@
 
 #define MAX_ITEMS 1000
 
+
 /* Comparator for Item Name (A-Z) */
 int compare_by_name(const void *a, const void *b)
 {

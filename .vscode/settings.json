@@ -8,7 +8,8 @@
         "sorting.h": "c",
         "csv_parser.h": "c",
         "item.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "latex_export.h": "c"
     },
     "makefile.configureOnOpen": true
 }

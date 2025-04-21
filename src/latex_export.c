@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "latex_export.h"
 #include "item.h"
 
-#include <time.h>
-
 #define OUTPUT_FILE "./output/stock_report.text"
+
 
 void write_table(FILE *file, Item **items, int num_rows, char* title)
 {

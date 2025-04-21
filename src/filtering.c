@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "item.h"
 #include "utils.h"
 #include "filtering.h"
 #include "sorting.h"
 #include "binary_cache.h"
 
-#include <time.h>
 
 void parse_date(const char *date_str, int *day, int *month, int *year)
 {

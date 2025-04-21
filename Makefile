@@ -30,7 +30,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR) || @if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# remove object files
+# remove object files, executable files, and binary cache 
 clean:
 ifeq ($(OS),Windows)
 	@if exist "$(OBJ_DIR)" rmdir /s /q "$(OBJ_DIR)"

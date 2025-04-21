@@ -1,5 +1,7 @@
 # PLC-Inventory-Tracker
 
+This is a project 
+
 To run, in ```./PLC-Inventory-Tracker```:  
 ```
 > make 
@@ -66,5 +68,6 @@ PLC-INVENTORY-TRACKER
     ├── sorting.c
     └── utils.c
 ```
-Dataset obtained from: https://www.kaggle.com/datasets/shinomikel/stardew-valley-spring-crop-info  
-https://docs.google.com/spreadsheets/d/1Hd7M6ITTDcdGbqGiTtgrp0vgXuJqLaCP2xJ3LaV8gbU/edit?gid=142621552#gid=142621552  
+Dataset obtained from:   
+- https://www.kaggle.com/datasets/shinomikel/stardew-valley-spring-crop-info     
+- https://docs.google.com/spreadsheets/d/1Hd7M6ITTDcdGbqGiTtgrp0vgXuJqLaCP2xJ3LaV8gbU/edit?gid=142621552#gid=142621552  

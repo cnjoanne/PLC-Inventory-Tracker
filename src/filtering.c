@@ -326,7 +326,7 @@ Item **get_low_stock_items(int *low_stock_count, int limit, int item_count)
     low_stock_items = filter_items_by_quantity(items, item_count, limit, low_stock_count);
     /* sort low_stock_items based on quantity */
     qsort(low_stock_items, *low_stock_count, sizeof(Item *), compare_by_quantity);
-    printf("%d\n", *low_stock_count);
+    printf("Found: %d\n", *low_stock_count);
     if (*low_stock_count <= 0)
     {
         printf("No items found.\n");
@@ -355,7 +355,7 @@ Item **get_expirying_items(int *expirying_soon_count, char *expiry_limit, int it
     /* sort expirying_soon_items based on expiry date */
     qsort(expirying_soon_items, *expirying_soon_count, sizeof(Item *), compare_by_expiry);
 
-    printf("%d\n", *expirying_soon_count);
+    printf("Found: %d\n", *expirying_soon_count);
     if (*expirying_soon_count <= 0)
     {
         printf("No items found.\n");

@@ -86,7 +86,7 @@ int main(void)
                 printf("Item: %s, Quantity: %d, Expiry Date: %s\n",
                        items[i]->item_name, items[i]->quantity, items[i]->expiry_date);
             }
-            to_latex(expirying_soon_items, low_stock_items, items, expirying_soon_count, low_stock_count, item_count);
+            to_latex(low_stock_items, expirying_soon_items, items, low_stock_count, expirying_soon_count, item_count);
             free_items(items, item_count);
             free_items(low_stock_items, low_stock_count);
             free_items(expirying_soon_items, expirying_soon_count);

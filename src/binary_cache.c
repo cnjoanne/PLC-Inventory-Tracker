@@ -35,7 +35,6 @@ void write_binary_cache(Item **items, int *item_count){
         return;
     }
 
-    /* TODO: Ensure it properly overwrites binary cache file if there was another content stored inside -cn*/
     /* write items to binary cache file */
     for (i=0; i < *item_count; i++){
         fwrite(items[i], sizeof(Item), 1, bin_cache);

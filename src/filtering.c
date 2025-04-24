@@ -292,8 +292,8 @@ void handle_filter_by_quantity(int *item_count)
         continue;
     }
 
-    /* filtered = filter_items_by_quantity(items, *item_count, quantity, &filtered_count); */
-    filtered = filter_items_by_quantity_fsm(items, *item_count, quantity, &filtered_count);
+    filtered = filter_items_by_quantity(items, *item_count, quantity, &filtered_count);
+    /* filtered = filter_items_by_quantity_fsm(items, *item_count, quantity, &filtered_count); */
     if (filtered_count > 0)
     {
         /* NOTE: Using write_binary_cache here will not modify item_count but it will override the existing binary file. Do be careful about using this overwritten binary file when implementing get_low_stock and expiry date*/
